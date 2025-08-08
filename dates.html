@@ -163,6 +163,12 @@
         return;
       }
 
+      data.records.sort((a, b) => {
+        const aDate = a.fields.nextReminder ? new Date(a.fields.nextReminder) : new Date('9999-12-31');
+        const bDate = b.fields.nextReminder ? new Date(b.fields.nextReminder) : new Date('9999-12-31');
+        return aDate - bDate;
+      });
+
       data.records.forEach(record => {
         const { name, lastName, date, nextReminder } = record.fields;
         const id = record.id;

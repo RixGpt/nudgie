@@ -71,6 +71,21 @@ i.fa-dove {
   margin-right: 0.75rem;
 }
 
+/* Compact form spacing */
+#birthdayForm .form-control {
+  padding: 0.375rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+#birthdayForm .form-label {
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+}
+
+#birthdayForm .col-md-4 {
+  margin-bottom: 0.5rem;
+}
+
 /* Menu bar styles */
 .menu-bar {
   background-color: #ffffff;

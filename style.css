@@ -1,4 +1,4 @@
-/* style.css */
+ /* style.css */
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f8f9fa;
@@ -68,3 +68,36 @@ i.fa-dove {
   color: #0d6efd;
   margin-right: 0.75rem;
 }
+
+/* Menu bar styles */
+.menu-bar {
+  margin-bottom: 1.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  gap: 0.5rem;
+}
+
+.menu-bar a.btn {
+  font-size: 0.85rem;
+  padding: 0.3rem 0.75rem;
+  color: #495057;
+}
+
+.menu-bar a.btn:hover {
+  background-color: #fff;
+}
+
+.menu-bar .btn-logout {
+  color: #dc3545;
+  border-color: #f5c6cb;
+}
+
+.menu-bar .btn-logout:hover {
+  background-color: #f8d7da;
+  border-color: #f1b0b7;
+}
+
+.menu-bar i {
+  margin-right: 5px;
+}
+

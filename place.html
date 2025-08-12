@@ -96,7 +96,6 @@
     let itemTypeMap = {}; // { [itemTypeRecordId]: { itemName, intervalMonths } }
 
     // Helpers
-    const qs = (sel) => document.querySelector(sel);
     const listContainer = () => document.getElementById("placeList");
 
     function showRowMessage(msg) {
@@ -104,17 +103,13 @@
       if (!el) return;
       el.innerHTML = `
         <div class="reminder-item">
-          <div class="reminder-row top">
-            <div class="reminder-name text-muted">${msg}</div>
-            <div class="reminder-date"></div>
-          </div>
+          <div class="reminder-title text-muted">${msg}</div>
         </div>
       `;
     }
 
     function formatDate(val) {
       if (!val) return "—";
-      // Accept "YYYY-MM-DD" or ISO with time
       const iso = String(val).includes("T") ? val.split("T")[0] : String(val);
       const [y, m, d] = iso.split("-");
       if (!y || !m || !d) return "—";
@@ -170,7 +165,6 @@
         });
       } catch (err) {
         console.error("itemTypes error:", err);
-        // Still let the page work; creation will block if item type invalid
       }
     }
 
@@ -214,17 +208,27 @@
           card.innerHTML = `
             <!-- Read view -->
             <div class="card-view">
-              <div class="reminder-row top">
-                <div class="reminder-name">${name || ""}</div>
-                <div class="reminder-date">${formatDate(nextDue)}</div>
+              <div class="reminder-title">${name || ""}</div>
+
+              <div class="kv-row">
+                <div class="kv-left"><i class="fas fa-calendar"></i> Next Due</div>
+                <div class="kv-right">${formatDate(nextDue)}</div>
               </div>
-              <div class="reminder-row bottom">
-                <div class="reminder-type">${itemTypeName || "—"}</div>
-                <div class="reminder-actions">
-                  <i class="fas fa-check-circle text-primary action-icon" title="Done" onclick="markDone('${id}')"></i>
-                  <i class="fas fa-clock text-primary action-icon" title="Delay 1 month" onclick="delayReminder('${id}')"></i>
-                  <i class="fas fa-edit text-primary action-icon" title="Edit" onclick="editReminder('${id}')"></i>
-                  <i class="fas fa-trash text-danger action-icon" title="Delete" onclick="deleteReminder('${id}')"></i>
+
+              <div class="kv-row">
+                <div class="kv-left"><i class="fas fa-tag"></i> Item Type</div>
+                <div class="kv-right ${itemTypeName ? "" : "muted"}">${itemTypeName || "—"}</div>
+              </div>
+
+              <div class="kv-row">
+                <div class="kv-left"><i class="fas fa-tools"></i> Actions</div>
+                <div class="kv-right">
+                  <div class="reminder-actions">
+                    <i class="fas fa-check text-primary action-icon" title="Done" onclick="markDone('${id}')"></i>
+                    <i class="fas fa-clock text-primary action-icon" title="Delay 1 month" onclick="delayReminder('${id}')"></i>
+                    <i class="fas fa-pen text-primary action-icon" title="Edit" onclick="editReminder('${id}')"></i>
+                    <i class="fas fa-trash text-danger action-icon" title="Delete" onclick="deleteReminder('${id}')"></i>
+                  </div>
                 </div>
               </div>
             </div>
@@ -233,23 +237,24 @@
             <div class="card-edit">
               <div class="edit-grid">
                 <div>
-                  <label class="form-label mb-1">Name</label>
-                  <input type="text" id="editName-${id}" class="form-control" value="${(name || "").replace(/"/g,'&quot;')}" />
+                  <label class="form-label">Name</label>
+                  <input type="text" id="editName-${id}" class="form-control"
+                         value="${(name || "").replace(/"/g,'&quot;')}" />
                 </div>
                 <div>
-                  <label class="form-label mb-1">Item Type</label>
+                  <label class="form-label">Item Type</label>
                   <select id="editItemType-${id}" class="form-select">${options}</select>
                 </div>
                 <div>
-                  <label class="form-label mb-1">Last Changed</label>
+                  <label class="form-label">Last Changed</label>
                   <input type="date" id="editLastUpdated-${id}" class="form-control" value="${(lastUpdated || "")}" />
                 </div>
                 <div>
-                  <label class="form-label mb-1">Next Due (auto)</label>
+                  <label class="form-label">Next Due (auto)</label>
                   <input type="text" class="form-control" value="${formatDate(nextDue)}" disabled />
                 </div>
               </div>
-              <div class="edit-actions mt-2">
+              <div class="edit-actions">
                 <button class="btn btn-sm btn-success" onclick="saveEdit('${id}')">Save</button>
                 <button class="btn btn-sm btn-secondary" onclick="cancelEdit('${id}')">Cancel</button>
               </div>
@@ -399,7 +404,7 @@
       }
     });
 
-    // init: load item types, then places (but places also works if item types fail)
+    // init
     loadItemTypes().finally(loadPlaces);
   </script>
 
@@ -412,7 +417,7 @@
       });
   </script>
 
-  <!-- Toggle form like birthdays -->
+  <!-- Toggle form -->
   <script>
     document.getElementById("toggleFormBtn").addEventListener("click", function () {
       document.getElementById("placeFormContainer").classList.remove("d-none");

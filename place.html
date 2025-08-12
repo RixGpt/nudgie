@@ -203,7 +203,7 @@
 
           // Build options for edit select
           const options = Object.values(itemTypeMap).map(val => {
-            const selected = itemTypeName === val.itemName ? "selected";
+            const selected = (itemTypeName === val.itemName) ? "selected" : "";
             return `<option value="${val.itemName}" ${selected}>${val.itemName}</option>`;
           }).join("");
 

@@ -116,9 +116,9 @@ i.fa-dove {
 }
 
 .reminder-title {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 
 /* Key-value rows */
@@ -138,7 +138,7 @@ i.fa-dove {
   gap: 8px;
   color: #6c757d;
   font-weight: 600;
-  min-width: 130px;   /* keeps labels aligned on desktop */
+  min-width: 130px;
 }
 .kv-left i { font-size: 1rem; }
 
@@ -169,9 +169,32 @@ i.fa-dove {
   justify-content: flex-end;
 }
 
+/* ===================== Birthdays card header ===================== */
+.row-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.birthday-date {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #5a5a5a;
+}
+
+.next-reminder {
+  font-size: 0.85rem;
+  color: #6c757d;
+  white-space: nowrap;
+}
+
+.next-reminder i { opacity: 0.9; }
+
 /* ===================== Responsive ===================== */
 @media (max-width: 576px) {
   .reminder-item { border-radius: 10px; padding: 10px 12px; }
-  .kv-left { min-width: 0; }      /* allow labels to wrap on phones */
+  .kv-left { min-width: 0; }
   .card-edit .edit-grid { grid-template-columns: 1fr; }
 }

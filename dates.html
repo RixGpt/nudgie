@@ -71,7 +71,7 @@
       <span>We will email you at 4 weeks, 2 weeks, 1 week, and on the day of these birthdays.</span>
     </div>
 
-    <!-- Card list replaces the table -->
+    <!-- Card list -->
     <div id="birthdayList" class="reminder-list">
       <!-- cards injected here -->
     </div>
@@ -99,9 +99,9 @@
       return `${month}/${day}/${year}`;
     }
 
-    // Toggle helpers
-    function enterEdit(card) { card.classList.add("editing"); }
-    function exitEdit(card)  { card.classList.remove("editing"); }
+    // Edit state helpers
+    function enterEdit(cardEl) { cardEl.classList.add("editing"); }
+    function exitEdit(cardEl)  { cardEl.classList.remove("editing"); }
 
     async function updateBirthday(id) {
       const newDate = document.getElementById(`editDate-${id}`).value;
@@ -180,14 +180,22 @@
           <div class="card-view">
             <div class="row-top">
               <div class="birthday-date">${birthdayDisplay}</div>
-              <div class="next-reminder"><i class="fa-regular fa-bell me-1"></i>${reminderDisplay}</div>
+              <div class="row-tools">
+                <div class="next-reminder"><i class="fa-regular fa-bell me-1"></i>${reminderDisplay}</div>
+                <div class="dropdown">
+                  <button class="kebab-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Actions">
+                    <i class="fa-solid fa-ellipsis-vertical kebab-icon"></i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><button class="dropdown-item" onclick="enterEdit(document.getElementById('card-${id}'))"><i class="fa-solid fa-pen me-2"></i>Edit</button></li>
+                    <li><button class="dropdown-item text-danger" onclick="deleteBirthday('${id}')"><i class="fa-solid fa-trash me-2"></i>Delete</button></li>
+                  </ul>
+                </div>
+              </div>
             </div>
+
             <div class="reminder-title">${name || ""}</div>
-            <div class="text-muted small">${lastName || ""}</div>
-            <div class="mt-2 reminder-actions">
-              <i class="fas fa-edit text-primary action-icon" title="Edit" onclick="enterEdit(document.getElementById('card-${id}'))"></i>
-              <i class="fas fa-trash text-danger action-icon" title="Delete" onclick="deleteBirthday('${id}')"></i>
-            </div>
+            <div class="last-name">${lastName || ""}</div>
           </div>
 
           <div class="card-edit">
@@ -217,8 +225,8 @@
       .then(html => { document.getElementById('menu-container').innerHTML = html; });
   </script>
 
+  <!-- Form toggle -->
   <script>
-    // Toggle show/hide form
     document.getElementById("toggleFormBtn").addEventListener("click", function () {
       document.getElementById("birthdayFormContainer").classList.remove("d-none");
       this.classList.add("d-none");
@@ -228,6 +236,8 @@
       document.getElementById("toggleFormBtn").classList.remove("d-none");
     });
   </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Bootstrap bundle (needed for dropdown) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

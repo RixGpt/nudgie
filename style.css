@@ -29,25 +29,39 @@ a:hover { opacity: 0.8; }
 
 /* ===================== Header block ===================== */
 .header-bar {
-  background-color: #ffffff;
-  border-bottom: 1px solid #eee;
+  background-color: #0d6efd; /* blue background */
   padding: 0.75rem 0;
   margin-bottom: 1rem;
 }
+
 .header-bar .title {
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;
+  color: #fff; /* white text */
 }
+
 .header-bar .subtitle {
   font-size: 0.85rem;
   margin: 0;
-  color: #555;
+  color: #e9ecef; /* lighter white/grey text */
 }
+
 i.fa-dove {
   font-size: 2.5rem;
-  color: #0d6efd;
+  color: #fff; /* white icon */
   margin-right: 0.75rem;
+}
+
+/* invert header button style */
+.header-bar .btn {
+  background-color: #fff;
+  color: #0d6efd;
+  border-color: #fff;
+}
+.header-bar .btn:hover {
+  background-color: #f8f9fa;
+  color: #0b5ed7;
 }
 
 /* ===================== Menu bar ===================== */
@@ -211,3 +225,4 @@ i.fa-dove {
   .reminder-item { padding: 10px 0; }
   .card-edit .edit-grid { grid-template-columns: 1fr; }
 }
+

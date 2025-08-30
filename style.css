@@ -86,7 +86,7 @@ i.fa-dove {
 }
 #birthdayForm .col-md-4 { margin-bottom: 0.5rem; }
 
-/* ===================== Action icons (shared) ===================== */
+/* ===================== Action icons (legacy shared) ===================== */
 .action-icon {
   display: inline-flex;
   align-items: center;
@@ -105,35 +105,35 @@ i.fa-dove {
 .text-primary.action-icon,
 .text-danger.action-icon { opacity: 1; }
 
-/* ===================== Cards: vertical mini-table ===================== */
-.reminder-list { display: grid; gap: 10px; }
+/* ===================== Birthday rows ===================== */
+.reminder-list {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
 
 .reminder-item {
-  background: #fff;
-  border: 1px solid #e9ecef;
-  border-radius: 12px;
-  padding: 12px 14px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.03);
-  font-size: 0.95rem; /* unify within card as well */
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 10px 2px;
+  margin: 0;
+  position: relative;
 }
 
-/* names block */
-.reminder-title {
-  font-weight: 700;         /* First name bold */
-  margin-bottom: 2px;
-}
-.last-name {
-  font-weight: 400;         /* Last name normal */
-  color: #212529;
+/* light grey divider between rows */
+.reminder-item:not(:last-child) {
+  border-bottom: 1px solid #ececec;
 }
 
-/* Header line: birthday (left) + right-side tools */
+/* top row: birthday (left), reminder + kebab (right) */
 .row-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 
 .row-tools {
@@ -142,19 +142,30 @@ i.fa-dove {
   gap: 6px;
 }
 
-/* Birthday + next reminder */
+/* birthday + reminder */
 .birthday-date {
   font-weight: 600;
-  color: #0d6efd;          /* same color as buttons */
+  color: #0d6efd; /* same as button color */
 }
 
 .next-reminder {
   color: #6c757d;
   white-space: nowrap;
+  font-size: 0.9rem;
 }
 .next-reminder i { opacity: 0.9; }
 
-/* Kebab (3-dot) menu */
+/* names */
+.reminder-title {
+  font-weight: 700; /* first name bold */
+  margin-bottom: 0;
+}
+.last-name {
+  font-weight: 400; /* last name normal */
+  color: #212529;
+}
+
+/* kebab dropdown */
 .kebab-btn {
   border: none;
   background: transparent;
@@ -162,7 +173,7 @@ i.fa-dove {
   line-height: 1;
   border-radius: 8px;
 }
-.kebab-btn:hover { background: rgba(0,0,0,0.05); }
+.kebab-btn:hover { background: rgba(0,0,0,0.04); }
 .kebab-btn:focus { box-shadow: none; }
 .kebab-icon { font-size: 1rem; color: #6c757d; }
 
@@ -174,7 +185,7 @@ i.fa-dove {
 }
 .dropdown-item { padding: 8px 12px; }
 
-/* ===================== Edit state for cards ===================== */
+/* ===================== Edit state ===================== */
 .card-view { display: block; }
 .card-edit { display: none; }
 .reminder-item.editing .card-view { display: none; }
@@ -197,6 +208,6 @@ i.fa-dove {
 
 /* ===================== Responsive ===================== */
 @media (max-width: 576px) {
-  .reminder-item { border-radius: 10px; padding: 10px 12px; }
+  .reminder-item { padding: 10px 0; }
   .card-edit .edit-grid { grid-template-columns: 1fr; }
 }

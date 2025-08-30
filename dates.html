@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Font override -->
 </head>
 <body>
 
@@ -71,9 +72,9 @@
       <span>We will email you at 4 weeks, 2 weeks, 1 week, and on the day of these birthdays.</span>
     </div>
 
-    <!-- Card list -->
+    <!-- List -->
     <div id="birthdayList" class="reminder-list">
-      <!-- cards injected here -->
+      <!-- rows injected here -->
     </div>
   </div>
 
@@ -94,10 +95,48 @@
       window.location.href = "login.html";
     }
 
-    // Format date as DD MMM YYYY
-    function formatDate(dateStr) {
-      if (!dateStr) return "—";
-      const d = new Date(dateStr);
+    /* ---------- Robust date parsing + formatting (fixes iPhone 'Invalid Date') ---------- */
+    function safeParseDate(input) {
+      if (!input) return null;
+
+      // Already a Date?
+      if (Object.prototype.toString.call(input) === "[object Date]") {
+        return isNaN(input) ? null : input;
+      }
+
+      // Timestamp (number)?
+      if (typeof input === "number") {
+        const d = new Date(input);
+        return isNaN(d) ? null : d;
+      }
+
+      // String parsing
+      if (typeof input === "string") {
+        let s = input.trim();
+        if (!s) return null;
+
+        // Handle "YYYY-MM-DD HH:mm" -> "YYYY-MM-DDTHH:mm" (Safari needs 'T')
+        if (/^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}(:\d{2})?$/.test(s)) {
+          s = s.replace(" ", "T");
+        }
+
+        const d = new Date(s);
+        if (!isNaN(d)) return d;
+
+        // Fallback to date-only part
+        const onlyDate = s.split(" ")[0];
+        if (onlyDate && /^\d{4}-\d{2}-\d{2}$/.test(onlyDate)) {
+          const d2 = new Date(onlyDate);
+          if (!isNaN(d2)) return d2;
+        }
+      }
+      return null;
+    }
+
+    // Format as "DD MMM YYYY", e.g., 29 Aug 2025
+    function formatDate(val) {
+      const d = safeParseDate(val);
+      if (!d) return "—";
       return d.toLocaleDateString("en-GB", {
         day: "2-digit",
         month: "short",
@@ -165,10 +204,10 @@
         return;
       }
 
-      // Sort by nextReminder (soonest first; empties last)
+      // Sort by nextReminder (soonest first; empties last) using safe parser
       data.records.sort((a, b) => {
-        const aDate = a.fields.nextReminder ? new Date(a.fields.nextReminder) : new Date('9999-12-31');
-        const bDate = b.fields.nextReminder ? new Date(b.fields.nextReminder) : new Date('9999-12-31');
+        const aDate = safeParseDate(a.fields.nextReminder) || new Date('9999-12-31');
+        const bDate = safeParseDate(b.fields.nextReminder) || new Date('9999-12-31');
         return aDate - bDate;
       });
 
@@ -200,15 +239,16 @@
               </div>
             </div>
 
-            <div class="reminder-title">${name || ""}</div>
-            <div class="last-name">${lastName || ""}</div>
+            <div class="reminder-title">
+              ${name || ""} <span class="last-name">${lastName || ""}</span>
+            </div>
           </div>
 
           <div class="card-edit">
             <div class="edit-grid">
               <div>
                 <label class="form-label">Birthday</label>
-                <input type="date" id="editDate-${id}" class="form-control form-control-sm" value="${date}" />
+                <input type="date" id="editDate-${id}" class="form-control form-control-sm" value="${date || ""}" />
               </div>
             </div>
             <div class="edit-actions">

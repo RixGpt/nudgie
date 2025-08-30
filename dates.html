@@ -166,14 +166,12 @@
       });
 
       data.records.forEach(record => {
-        const { name, lastName, date, nextReminderDisplay } = record.fields;
+        const { name, lastName, date, birthdayDisplay, nextReminderDisplay } = record.fields;
         const id = record.id;
 
-        // Birthday: show exactly as Airtable returns it (no parsing/timezone)
-        const birthdayDisplay = date || "—";
-
-        // Reminder: use the preformatted display string from Airtable
-        const reminderDisplay = nextReminderDisplay || "—";
+        // Birthday + reminder come preformatted from Airtable
+        const bday = birthdayDisplay || "—";
+        const reminder = nextReminderDisplay || "—";
 
         const card = document.createElement("div");
         card.className = "reminder-item";
@@ -182,9 +180,9 @@
         card.innerHTML = `
           <div class="card-view">
             <div class="row-top">
-              <div class="birthday-date">${birthdayDisplay}</div>
+              <div class="birthday-date">${bday}</div>
               <div class="row-tools">
-                <div class="next-reminder"><i class="fa-regular fa-bell me-1"></i>${reminderDisplay}</div>
+                <div class="next-reminder"><i class="fa-regular fa-bell me-1"></i>${reminder}</div>
                 <div class="dropdown">
                   <button class="kebab-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Actions">
                     <i class="fa-solid fa-ellipsis-vertical kebab-icon"></i>
@@ -206,7 +204,7 @@
             <div class="edit-grid">
               <div>
                 <label class="form-label">Birthday</label>
-                <input type="date" id="editDate-${id}" class="form-control form-control-sm" value="${(record.fields.dateRaw || record.fields.dateISO || record.fields.date || '').toString()}" />
+                <input type="date" id="editDate-${id}" class="form-control form-control-sm" value="${date || ""}" />
               </div>
             </div>
             <div class="edit-actions">

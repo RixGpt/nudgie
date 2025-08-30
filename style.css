@@ -3,6 +3,7 @@ body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f8f9fa;
   margin: 0;
+  font-size: 0.95rem; /* unified font size */
 }
 
 .container-narrow {
@@ -113,40 +114,65 @@ i.fa-dove {
   border-radius: 12px;
   padding: 12px 14px;
   box-shadow: 0 1px 2px rgba(0,0,0,.03);
+  font-size: 0.95rem; /* unify within card as well */
 }
 
+/* names block */
 .reminder-title {
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-weight: 700;         /* First name bold */
   margin-bottom: 2px;
 }
-
-/* Key-value rows */
-.kv-row {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 10px;
-  align-items: center;
-  padding: 10px 0;
-  border-top: 1px solid #f1f3f5;
+.last-name {
+  font-weight: 400;         /* Last name normal */
+  color: #212529;
 }
-.kv-row:first-of-type { border-top: 0; padding-top: 6px; }
 
-.kv-left {
+/* Header line: birthday (left) + right-side tools */
+.row-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.row-tools {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  color: #6c757d;
-  font-weight: 600;
-  min-width: 130px;
+  gap: 6px;
 }
-.kv-left i { font-size: 1rem; }
 
-.kv-right { justify-self: end; color: #212529; }
-.kv-right.muted { color: #6c757d; }
+/* Birthday + next reminder */
+.birthday-date {
+  font-weight: 600;
+  color: #0d6efd;          /* same color as buttons */
+}
 
-/* Actions row */
-.reminder-actions { display: inline-flex; gap: 8px; }
+.next-reminder {
+  color: #6c757d;
+  white-space: nowrap;
+}
+.next-reminder i { opacity: 0.9; }
+
+/* Kebab (3-dot) menu */
+.kebab-btn {
+  border: none;
+  background: transparent;
+  padding: 2px 6px;
+  line-height: 1;
+  border-radius: 8px;
+}
+.kebab-btn:hover { background: rgba(0,0,0,0.05); }
+.kebab-btn:focus { box-shadow: none; }
+.kebab-icon { font-size: 1rem; color: #6c757d; }
+
+.dropdown-menu {
+  min-width: 150px;
+  border-radius: 10px;
+  border-color: #e9ecef;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+.dropdown-item { padding: 8px 12px; }
 
 /* ===================== Edit state for cards ===================== */
 .card-view { display: block; }
@@ -154,9 +180,9 @@ i.fa-dove {
 .reminder-item.editing .card-view { display: none; }
 .reminder-item.editing .card-edit { display: block; }
 
-.card-edit .form-label { margin-bottom: 4px; font-size: .8rem; color:#6c757d; }
+.card-edit .form-label { margin-bottom: 4px; font-size: .85rem; color:#6c757d; }
 .card-edit .form-control,
-.card-edit .form-select { height: 36px; padding: .375rem .5rem; font-size: .9rem; }
+.card-edit .form-select { height: 36px; padding: .375rem .5rem; font-size: .95rem; }
 .card-edit .edit-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -169,32 +195,8 @@ i.fa-dove {
   justify-content: flex-end;
 }
 
-/* ===================== Birthdays card header ===================== */
-.row-top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 6px;
-}
-
-.birthday-date {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #5a5a5a;
-}
-
-.next-reminder {
-  font-size: 0.85rem;
-  color: #6c757d;
-  white-space: nowrap;
-}
-
-.next-reminder i { opacity: 0.9; }
-
 /* ===================== Responsive ===================== */
 @media (max-width: 576px) {
   .reminder-item { border-radius: 10px; padding: 10px 12px; }
-  .kv-left { min-width: 0; }
   .card-edit .edit-grid { grid-template-columns: 1fr; }
 }

@@ -94,9 +94,15 @@
       window.location.href = "login.html";
     }
 
+    // Format date as DD MMM YYYY
     function formatDate(dateStr) {
-      const [year, month, day] = dateStr.split("T")[0].split("-");
-      return `${month}/${day}/${year}`;
+      if (!dateStr) return "—";
+      const d = new Date(dateStr);
+      return d.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      });
     }
 
     // Edit state helpers
@@ -170,7 +176,7 @@
         const { name, lastName, date, nextReminder } = record.fields;
         const id = record.id;
         const birthdayDisplay = formatDate(date);
-        const reminderDisplay = nextReminder ? formatDate(nextReminder) : "—";
+        const reminderDisplay = formatDate(nextReminder);
 
         const card = document.createElement("div");
         card.className = "reminder-item";

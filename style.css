@@ -12,24 +12,29 @@ body {
   padding-top: 10px;
 }
 
+/* Primary buttons now purple */
 .btn-primary {
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  background-color: #731358;
+  border-color: #731358;
+}
+.btn-primary:hover {
+  background-color: #5a0f43; /* darker purple */
+  border-color: #5a0f43;
 }
 
 a {
   text-decoration: none;
-  color: #0d6efd;
+  color: #731358;
 }
-a:hover { opacity: 0.8; }
+a:hover { color: #5a0f43; } /* darker purple on hover */
 
 .form-label { font-size: 0.875rem; }
-.table thead th { font-weight: 600; }  /* kept for any legacy tables */
+.table thead th { font-weight: 600; }
 .alert { font-size: 0.95rem; }
 
 /* ===================== Header block ===================== */
 .header-bar {
-  background-color: #0d6efd; /* blue background */
+  background-color: #731358; /* purple background */
   padding: 0.75rem 0;
   margin-bottom: 1rem;
 }
@@ -44,7 +49,7 @@ a:hover { opacity: 0.8; }
 .header-bar .subtitle {
   font-size: 0.85rem;
   margin: 0;
-  color: #e9ecef; /* lighter white/grey text */
+  color: #f1ddee; /* soft light purple-grey */
 }
 
 i.fa-dove {
@@ -56,12 +61,12 @@ i.fa-dove {
 /* invert header button style */
 .header-bar .btn {
   background-color: #fff;
-  color: #0d6efd;
+  color: #731358;
   border-color: #fff;
 }
 .header-bar .btn:hover {
   background-color: #f8f9fa;
-  color: #0b5ed7;
+  color: #5a0f43;
 }
 
 /* ===================== Menu bar ===================== */
@@ -159,7 +164,7 @@ i.fa-dove {
 /* birthday + reminder */
 .birthday-date {
   font-weight: 600;
-  color: #0d6efd; /* same as button color */
+  color: #731358; /* now purple */
 }
 
 .next-reminder {
@@ -225,4 +230,3 @@ i.fa-dove {
   .reminder-item { padding: 10px 0; }
   .card-edit .edit-grid { grid-template-columns: 1fr; }
 }
-

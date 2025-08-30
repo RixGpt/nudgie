@@ -69,7 +69,7 @@
     </div>
 
     <div class="alert alert-warning mb-4 d-flex align-items-center" role="alert">
-      <i class="fas fa-birthday-cake me-2 text-warning"></i>
+      <i class="fas a-birthday-cake me-2 text-warning"></i>
       <span>We will email you at 4 weeks, 2 weeks, 1 week, and on the day of these birthdays.</span>
     </div>
 
@@ -96,53 +96,12 @@
       window.location.href = "login.html";
     }
 
-    /* ---------- Robust date parsing (fix for Safari/Brave on iOS) ---------- */
-    function safeParseDate(input) {
-      if (!input) return null;
-
-      // Already a Date
-      if (Object.prototype.toString.call(input) === "[object Date]") {
-        return isNaN(input) ? null : input;
-      }
-
-      // Timestamp
-      if (typeof input === "number") {
-        const d = new Date(input);
-        return isNaN(d) ? null : d;
-      }
-
-      if (typeof input === "string") {
-        let s = input.trim();
-        if (!s) return null;
-
-        // Normalize "YYYY-MM-DD HH:mm" → "YYYY-MM-DDTHH:mm"
-        if (/^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}/.test(s)) {
-          s = s.replace(/\s+/, "T");
-        }
-
-        let d = new Date(s);
-        if (!isNaN(d)) return d;
-
-        // Fallback: parse only the date portion
-        const match = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
-        if (match) {
-          const [_, y, m, day] = match;
-          d = new Date(Number(y), Number(m) - 1, Number(day));
-          if (!isNaN(d)) return d;
-        }
-      }
-      return null;
-    }
-
-    // Format as "DD MMM YYYY"
-    function formatDate(val) {
-      const d = safeParseDate(val);
-      if (!d) return "—";
-      return d.toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric"
-      });
+    // Format birthday (comes as a true date/ISO from Airtable)
+    function formatBirthday(dateStr) {
+      if (!dateStr) return "—";
+      const d = new Date(dateStr);
+      if (isNaN(d)) return "—";
+      return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
     }
 
     // Edit state helpers
@@ -205,18 +164,20 @@
         return;
       }
 
-      // Sort by nextReminder (soonest first; empties last)
+      // Sort by nextReminderISO (soonest first; empties last)
       data.records.sort((a, b) => {
-        const aDate = safeParseDate(a.fields.nextReminder) || new Date('9999-12-31');
-        const bDate = safeParseDate(b.fields.nextReminder) || new Date('9999-12-31');
+        const aISO = a.fields.nextReminderISO;
+        const bISO = b.fields.nextReminderISO;
+        const aDate = aISO ? new Date(aISO) : new Date('9999-12-31');
+        const bDate = bISO ? new Date(bISO) : new Date('9999-12-31');
         return aDate - bDate;
       });
 
       data.records.forEach(record => {
-        const { name, lastName, date, nextReminder } = record.fields;
+        const { name, lastName, date, nextReminderDisplay } = record.fields;
         const id = record.id;
-        const birthdayDisplay = formatDate(date);
-        const reminderDisplay = formatDate(nextReminder);
+        const birthdayDisplay = formatBirthday(date);
+        const reminderDisplay = nextReminderDisplay || "—";
 
         const card = document.createElement("div");
         card.className = "reminder-item";

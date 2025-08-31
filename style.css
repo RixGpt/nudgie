@@ -1,6 +1,6 @@
 /* ===================== Base styles ===================== */
 body {
-  font-family: Arial, sans-serif; 
+  font-family: arial, sans-serif;
   background-color: #f8f9fa;
   margin: 0;
   font-size: 0.95rem; /* unified font size */
@@ -18,7 +18,7 @@ body {
   border-color: #731358;
 }
 .btn-primary:hover {
-  background-color: #5a0f43; /* darker purple */
+  background-color: #5a0f43;
   border-color: #5a0f43;
 }
 
@@ -26,7 +26,7 @@ a {
   text-decoration: none;
   color: #731358;
 }
-a:hover { color: #5a0f43; } /* darker purple on hover */
+a:hover { color: #5a0f43; }
 
 .form-label { font-size: 0.875rem; }
 .table thead th { font-weight: 600; }
@@ -164,7 +164,8 @@ i.fa-dove {
 /* birthday + reminder */
 .birthday-date {
   font-weight: 600;
-  color: #731358; /* now purple */
+  color: #731358; /* purple */
+  letter-spacing: 0.2px;
 }
 
 .next-reminder {
@@ -178,6 +179,7 @@ i.fa-dove {
 .reminder-title {
   font-weight: 700; /* first name bold */
   margin-bottom: 0;
+  line-height: 1.2;
 }
 .last-name {
   font-weight: 400; /* last name normal */
@@ -188,9 +190,9 @@ i.fa-dove {
 .kebab-btn {
   border: none;
   background: transparent;
-  padding: 2px 6px;
+  padding: 4px 8px;
   line-height: 1;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 .kebab-btn:hover { background: rgba(0,0,0,0.04); }
 .kebab-btn:focus { box-shadow: none; }
@@ -203,6 +205,21 @@ i.fa-dove {
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
 .dropdown-item { padding: 8px 12px; }
+
+/* ===================== Month headers (grouping) ===================== */
+.month-header {
+  position: sticky; top: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  background: #fff; z-index: 5;
+  padding: 6px 0; margin-top: 10px;
+  font-weight: 700; color: #731358;
+  border-top: 1px solid #f0eef2; border-bottom: 1px solid #f0eef2;
+}
+.mh-count {
+  font-weight: 600; font-size: .85rem;
+  color: #731358; background: #fbf8fc; border: 1px solid #e7e1ea;
+  border-radius: 999px; padding: 2px 8px;
+}
 
 /* ===================== Edit state ===================== */
 .card-view { display: block; }
@@ -229,4 +246,10 @@ i.fa-dove {
 @media (max-width: 576px) {
   .reminder-item { padding: 10px 0; }
   .card-edit .edit-grid { grid-template-columns: 1fr; }
+  .month-header { top: -1px; } /* keeps it neatly attached under header */
+}
+
+/* --- subtle hover on desktop --- */
+@media (hover:hover) and (pointer:fine) {
+  .reminder-item:hover { background: #faf9fb; }
 }

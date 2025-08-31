@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <!-- Font override -->
+
 </head>
 <body>
 
@@ -72,9 +73,9 @@
       <span>We will email you at 4 weeks, 2 weeks, 1 week, and on the day of these birthdays.</span>
     </div>
 
-    <!-- List -->
+    <!-- List (grouped by month) -->
     <div id="birthdayList" class="reminder-list">
-      <!-- rows injected here -->
+      <!-- groups + rows injected here -->
     </div>
   </div>
 
@@ -101,6 +102,7 @@
 
     async function updateBirthday(id) {
       const newDate = document.getElementById(`editDate-${id}`).value;
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(newDate)) { alert('Please pick a valid date.'); return; }
       await fetch(`${apiURL}/${id}`, {
         method: "PATCH",
         headers: {
@@ -140,6 +142,18 @@
       loadBirthdays();
     });
 
+    // Helpers for grouping by nextReminder month
+    function monthKeyFromISO(iso) {
+      if (!iso) return 'No upcoming reminder';
+      const d = new Date(iso);
+      if (isNaN(d)) return 'No upcoming reminder';
+      // e.g., "September 2025"
+      return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    }
+    function sortDateFromISO(iso) {
+      return iso ? new Date(iso) : new Date('9999-12-31');
+    }
+
     async function loadBirthdays() {
       const filterFormula = `email="${email}"`;
       const res = await fetch(`${apiURL}?filterByFormula=${encodeURIComponent(filterFormula)}`, {
@@ -155,65 +169,89 @@
         return;
       }
 
-      // Sort by nextReminderISO (soonest first; empties last)
+      // Sort records globally by nextReminderISO (soonest first; empties last)
       data.records.sort((a, b) => {
-        const aISO = a.fields.nextReminderISO;
-        const bISO = b.fields.nextReminderISO;
-        const aDate = aISO ? new Date(aISO) : new Date('9999-12-31');
-        const bDate = bISO ? new Date(bISO) : new Date('9999-12-31');
+        const aDate = sortDateFromISO(a.fields.nextReminderISO);
+        const bDate = sortDateFromISO(b.fields.nextReminderISO);
         return aDate - bDate;
       });
 
-      data.records.forEach(record => {
-        const { name, lastName, date, birthdayDisplay, nextReminderDisplay } = record.fields;
-        const id = record.id;
+      // Group by month label derived from nextReminderISO
+      const groups = new Map();
+      data.records.forEach(r => {
+        const label = monthKeyFromISO(r.fields.nextReminderISO);
+        if (!groups.has(label)) groups.set(label, []);
+        groups.get(label).push(r);
+      });
 
-        // Birthday + reminder come preformatted from Airtable
-        const bday = birthdayDisplay || "—";
-        const reminder = nextReminderDisplay || "—";
+      // Preserve chronological order of groups by earliest record inside each
+      const orderedGroups = Array.from(groups.entries()).sort(([la, ra], [lb, rb]) => {
+        const aFirst = ra[0]?.fields?.nextReminderISO || null;
+        const bFirst = rb[0]?.fields?.nextReminderISO || null;
+        return sortDateFromISO(aFirst) - sortDateFromISO(bFirst);
+      });
 
-        const card = document.createElement("div");
-        card.className = "reminder-item";
-        card.id = `card-${id}`;
+      // Render groups
+      orderedGroups.forEach(([label, records]) => {
+        // Header with count
+        const h = document.createElement('div');
+        h.className = 'month-header';
+        h.innerHTML = `<span>${label}</span><span class="mh-count">${records.length}</span>`;
+        list.appendChild(h);
 
-        card.innerHTML = `
-          <div class="card-view">
-            <div class="row-top">
-              <div class="birthday-date">${bday}</div>
-              <div class="row-tools">
-                <div class="next-reminder"><i class="fa-regular fa-bell me-1"></i>${reminder}</div>
-                <div class="dropdown">
-                  <button class="kebab-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Actions">
-                    <i class="fa-solid fa-ellipsis-vertical kebab-icon"></i>
-                  </button>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li><button class="dropdown-item" onclick="enterEdit(document.getElementById('card-${id}'))"><i class="fa-solid fa-pen me-2"></i>Edit</button></li>
-                    <li><button class="dropdown-item text-danger" onclick="deleteBirthday('${id}')"><i class="fa-solid fa-trash me-2"></i>Delete</button></li>
-                  </ul>
+        // Rows within the group (already roughly sorted; tighten just in case)
+        records.sort((a,b) => sortDateFromISO(a.fields.nextReminderISO) - sortDateFromISO(b.fields.nextReminderISO));
+
+        records.forEach(record => {
+          const { name, lastName, date, birthdayDisplay, nextReminderDisplay } = record.fields;
+          const id = record.id;
+
+          const bday = birthdayDisplay || "—";
+          const reminder = nextReminderDisplay || "—";
+
+          const card = document.createElement("div");
+          card.className = "reminder-item";
+          card.id = `card-${id}`;
+
+          card.innerHTML = `
+            <div class="card-view">
+              <div class="row-top">
+                <div class="birthday-date">${bday}</div>
+                <div class="row-tools">
+                  <div class="next-reminder"><i class="fa-regular fa-bell me-1"></i>${reminder}</div>
+                  <div class="dropdown">
+                    <button class="kebab-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Actions">
+                      <i class="fa-solid fa-ellipsis-vertical kebab-icon"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li><button class="dropdown-item" onclick="enterEdit(document.getElementById('card-${id}'))"><i class="fa-solid fa-pen me-2"></i>Edit</button></li>
+                      <li><button class="dropdown-item text-danger" onclick="deleteBirthday('${id}')"><i class="fa-solid fa-trash me-2"></i>Delete</button></li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="reminder-title">
-              ${name || ""} <span class="last-name">${lastName || ""}</span>
-            </div>
-          </div>
-
-          <div class="card-edit">
-            <div class="edit-grid">
-              <div>
-                <label class="form-label">Birthday</label>
-                <input type="date" id="editDate-${id}" class="form-control form-control-sm" value="${date || ""}" />
+              <div class="reminder-title">
+                ${name || ""} <span class="last-name">${lastName || ""}</span>
               </div>
             </div>
-            <div class="edit-actions">
-              <button class="btn btn-sm btn-success" onclick="updateBirthday('${id}')">Save</button>
-              <button class="btn btn-sm btn-secondary" onclick="exitEdit(document.getElementById('card-${id}'))">Cancel</button>
-            </div>
-          </div>
-        `;
 
-        list.appendChild(card);
+            <div class="card-edit">
+              <div class="edit-grid">
+                <div>
+                  <label class="form-label">Birthday</label>
+                  <input type="date" id="editDate-${id}" class="form-control form-control-sm" value="${date || ""}" min="1900-01-01" max="2100-12-31" required />
+                </div>
+              </div>
+              <div class="edit-actions">
+                <button class="btn btn-sm btn-success" onclick="updateBirthday('${id}')">Save</button>
+                <button class="btn btn-sm btn-secondary" onclick="exitEdit(document.getElementById('card-${id}'))">Cancel</button>
+              </div>
+            </div>
+          `;
+
+          list.appendChild(card);
+        });
       });
     }
 

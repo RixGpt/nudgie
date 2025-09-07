@@ -1,15 +1,16 @@
 /* ===================== Base styles ===================== */
+/* Make footer stick to bottom on short pages */
+html, body { 
+  height: 100%; 
+}
+
 body {
   font-family: Arial, sans-serif; 
   background-color: #f8f9fa;
   margin: 0;
   font-size: 0.95rem; 
   display: flex;
-  flex-direction: column;/* unified font size */
-}
-/* Make footer stick to bottom on short pages */
-html, body {
-  height: 100%;
+  flex-direction: column;
 }
 
 main {
@@ -80,8 +81,8 @@ i.fa-dove {
 }
 
 /* Optional: brand/link helpers in header (no underline, keep white) */
-.header-bar a { text-decoration: none; color: #fff; }
-.header-bar a:hover { color: #f1ddee; }
+.header-bar a:not(.btn) { text-decoration: none; color: #fff; }
+.header-bar a:not(.btn):hover { color: #f1ddee; }
 
 /* ===================== Menu bar ===================== */
 .menu-bar {

@@ -3,7 +3,17 @@ body {
   font-family: Arial, sans-serif; 
   background-color: #f8f9fa;
   margin: 0;
-  font-size: 0.95rem; /* unified font size */
+  font-size: 0.95rem; 
+  display: flex;
+  flex-direction: column;/* unified font size */
+}
+/* Make footer stick to bottom on short pages */
+html, body {
+  height: 100%;
+}
+
+main {
+  flex: 1; /* pushes footer down */
 }
 
 .container-narrow {

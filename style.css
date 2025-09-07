@@ -14,7 +14,8 @@ body {
 }
 
 main {
-  flex: 1; /* pushes footer down */
+  flex: 1;
+  padding-bottom: 1.0rem;/* pushes footer down */
 }
 
 .container-narrow {
@@ -149,7 +150,6 @@ i.fa-dove {
   color: #fff;
   padding-top: 0.25rem !important;  /* reduce top padding */
   padding-bottom: 0.25rem !important; 
-  margin-top: 1.0rem;
 }
 .site-footer hr { border-color: rgba(255,255,255,0.2); }
 .link-footer { color: #fff; text-decoration: none; }

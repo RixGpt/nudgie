@@ -145,11 +145,13 @@ i.fa-dove {
 
 /* ===================== Footer ===================== */
 .site-footer {
-  background: #ffffff;
+  background: #212529; /* Bootstrap "dark gray/black" */
+  color: #fff;
 }
-.site-footer hr { border-color: #e9ecef; }
-.link-footer { color: #495057; text-decoration: none; }
-.link-footer:hover { color: #731358; text-decoration: underline; }
+.site-footer hr { border-color: rgba(255,255,255,0.2); }
+.link-footer { color: #fff; text-decoration: none; }
+.link-footer:hover { color: #adb5bd; text-decoration: underline; }
+
 
 /* ===================== Birthdays form (kept) ===================== */
 #birthdayForm .form-control {

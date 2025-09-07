@@ -82,6 +82,16 @@
     <div id="placeList" class="reminder-list"></div>
   </div>
 
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch("footer.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("footer-placeholder").innerHTML = data;
+      })
+      .catch(err => console.error("Footer load failed:", err));
+  </script>
+
   <!-- Places Logic -->
   <script>
     const airtableApiKey = "patvZfxpDZOYbjS27.dc2df00ca0e49de14030866cf08b05111606b9c79ad1f3d7a436a7bd697617ab";

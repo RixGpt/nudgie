@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-
 </head>
 <body>
 
@@ -26,62 +25,66 @@
     </div>
   </div>
 
-  <!-- Main Content -->
-  <div class="container-narrow px-3 px-sm-4">
+  <!-- Main (flex item to push footer down on short pages) -->
+  <main>
+    <div class="container-narrow px-3 px-sm-4">
 
-    <div id="menu-container"></div>
+      <div id="menu-container"></div>
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="mb-0">Place Reminders</h2>
-    </div>
-
-    <!-- Toggle Button -->
-    <button id="toggleFormBtn" class="btn btn-outline-primary btn-sm mb-3">
-      <i class="fas fa-plus"></i> Add a Place Reminder
-    </button>
-
-    <!-- Hidden Form Container -->
-    <div id="placeFormContainer" class="card card-body shadow-sm mb-4 d-none" style="background-color: #fff;">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h6 class="mb-0">Add a Place Reminder</h6>
-        <button id="hideFormBtn" class="btn btn-sm btn-outline-secondary">
-          <i class="fas fa-minus"></i> Hide
-        </button>
+        <h2 class="mb-0">Place Reminders</h2>
       </div>
-      <form id="placeForm" class="row gx-2 gy-2">
-        <div class="col-md-4">
-          <label for="itemType" class="form-label">Item</label>
-          <select id="itemType" class="form-select" required>
-            <option value="">Select Item Type</option>
-          </select>
+
+      <!-- Toggle Button -->
+      <button id="toggleFormBtn" class="btn btn-outline-primary btn-sm mb-3">
+        <i class="fas fa-plus"></i> Add a Place Reminder
+      </button>
+
+      <!-- Hidden Form Container -->
+      <div id="placeFormContainer" class="card card-body shadow-sm mb-4 d-none" style="background-color: #fff;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h6 class="mb-0">Add a Place Reminder</h6>
+          <button id="hideFormBtn" class="btn btn-sm btn-outline-secondary">
+            <i class="fas fa-minus"></i> Hide
+          </button>
         </div>
-        <div class="col-md-4">
-          <label for="name" class="form-label">Friendly Name</label>
-          <input type="text" id="name" class="form-control" placeholder="e.g., Upstairs filter" required />
-        </div>
-        <div class="col-md-4">
-          <label for="lastUpdated" class="form-label">Last Changed</label>
-          <input type="date" id="lastUpdated" class="form-control" required />
-        </div>
-        <div class="col-md-4 d-flex align-items-end">
-          <button type="submit" class="btn btn-primary w-100">Add Reminder</button>
-        </div>
-      </form>
+        <form id="placeForm" class="row gx-2 gy-2">
+          <div class="col-md-4">
+            <label for="itemType" class="form-label">Item</label>
+            <select id="itemType" class="form-select" required>
+              <option value="">Select Item Type</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="name" class="form-label">Friendly Name</label>
+            <input type="text" id="name" class="form-control" placeholder="e.g., Upstairs filter" required />
+          </div>
+          <div class="col-md-4">
+            <label for="lastUpdated" class="form-label">Last Changed</label>
+            <input type="date" id="lastUpdated" class="form-control" required />
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Add Reminder</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="alert alert-warning mb-4 d-flex align-items-center" role="alert">
+        <span>
+          We'll remind you at the next due date. <br/>
+          Hit <strong>Done</strong> when you change an item — we’ll set the next due date automatically. <br/>
+          <strong>Need a little more time?</strong> Hit the clock to delay the next reminder by 1 month.
+        </span>
+        <i class="fas fa-house ms-2 text-warning"></i>
+      </div>
+
+      <!-- List -->
+      <div id="placeList" class="reminder-list"></div>
+
     </div>
+  </main>
 
-    <div class="alert alert-warning mb-4 d-flex align-items-center" role="alert">
-      <span>
-        We'll remind you at the next due date. <br/>
-        Hit <strong>Done</strong> when you change an item — we’ll set the next due date automatically. <br/>
-        <strong>Need a little more time?</strong> Hit the clock to delay the next reminder by 1 month.
-      </span>
-      <i class="fas fa-house ms-2 text-warning"></i>
-    </div>
-
-    <!-- List -->
-    <div id="placeList" class="reminder-list"></div>
-  </div>
-
+  <!-- Shared Footer -->
   <div id="footer-placeholder"></div>
   <script>
     fetch("footer.html")
@@ -104,15 +107,11 @@
     const apiURL = `https://api.airtable.com/v0/${baseId}/${placeTable}`;
     const itemTypesURL = `https://api.airtable.com/v0/${baseId}/${itemTypesTable}`;
 
-    // itemTypes are stored as records with itemName + intervalMonths
-    // We'll map by recordId for the create flow; and by name for edit flow.
-    const itemTypeById = {};    // id -> { itemName, intervalMonths }
-    const itemTypeByName = {};  // itemName -> { itemName, intervalMonths }
+    const itemTypeById = {};
+    const itemTypeByName = {};
 
-    // ---------- Helpers ----------
     const listContainer = () => document.getElementById("placeList");
 
-    // Fallback formatter for YYYY-MM-DD -> DD MMM YYYY (string-based, timezone-proof)
     function prettyYMD(iso) {
       if (!iso) return "—";
       const s = (iso.includes("T") ? iso.split("T")[0] : iso).trim();
@@ -150,7 +149,6 @@
       return data;
     }
 
-    // ---------- Load item types for the form ----------
     async function loadItemTypes() {
       const data = await safeFetch(itemTypesURL, {
         headers: { Authorization: `Bearer ${airtableApiKey}` }
@@ -173,7 +171,6 @@
       });
     }
 
-    // ---------- CRUD ----------
     async function loadPlaces() {
       const el = listContainer();
       if (!el) return;
@@ -192,7 +189,6 @@
         return;
       }
 
-      // Sort by nextDueISO (display like birthdays page)
       records.sort((a, b) => {
         const aISO = a.fields?.nextDueISO || a.fields?.nextDue || null;
         const bISO = b.fields?.nextDueISO || b.fields?.nextDue || null;
@@ -206,17 +202,15 @@
         const {
           name,
           itemTypeName,
-          lastUpdated,            // raw YYYY-MM-DD
-          nextDue,                // raw YYYY-MM-DD
-          lastUpdatedDisplay,     // optional formula in Airtable
-          nextDueDisplay          // optional formula in Airtable
+          lastUpdated,
+          nextDue,
+          lastUpdatedDisplay,
+          nextDueDisplay
         } = rec.fields || {};
 
-        // Display strings (prefer Airtable display fields)
         const dueStr = nextDueDisplay || prettyYMD(nextDue);
         const lastStr = lastUpdatedDisplay || prettyYMD(lastUpdated);
 
-        // Build options for edit select (by name)
         const options = Object.values(itemTypeByName).map(val => {
           const selected = (itemTypeName === val.itemName) ? "selected" : "";
           return `<option value="${val.itemName}" ${selected}>${val.itemName}</option>`;
@@ -316,7 +310,6 @@
     }
 
     async function markDone(id) {
-      // set lastUpdated = today, advance by intervalMonths
       const rec = await safeFetch(`${apiURL}/${id}`, {
         headers: { Authorization: `Bearer ${airtableApiKey}` }
       });

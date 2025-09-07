@@ -148,7 +148,8 @@ i.fa-dove {
   background: #212529; /* Bootstrap "dark gray/black" */
   color: #fff;
   padding-top: 0.25rem !important;  /* reduce top padding */
-  padding-bottom: 0.25rem !important; /* reduce bottom padding */
+  padding-bottom: 0.25rem !important; 
+  margin-top: 1.0rem;
 }
 .site-footer hr { border-color: rgba(255,255,255,0.2); }
 .link-footer { color: #fff; text-decoration: none; }

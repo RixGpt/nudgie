@@ -69,6 +69,10 @@ i.fa-dove {
   color: #5a0f43;
 }
 
+/* Optional: brand/link helpers in header (no underline, keep white) */
+.header-bar a { text-decoration: none; color: #fff; }
+.header-bar a:hover { color: #f1ddee; }
+
 /* ===================== Menu bar ===================== */
 .menu-bar {
   background-color: #ffffff;
@@ -93,6 +97,48 @@ i.fa-dove {
   border-color: #f1b0b7;
 }
 .menu-bar i { margin-right: 5px; }
+
+/* ===================== Megatron (Hero) for index ===================== */
+.megatron {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.megatron .lead { color: #495057; }
+
+/* Icon row inside hero */
+.icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 0.5rem;
+  background: #fff;
+  border: 1px solid #e9ecef;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.icon-box i { font-size: 1rem; color: #6c757d; }
+
+/* ===================== Screenshot placeholders (optional) ===================== */
+.screenshot-placeholder {
+  height: 220px;
+  border: 1px dashed #ced4da;
+  border-radius: 0.75rem;
+  display: grid;
+  place-items: center;
+  color: #6c757d;
+  background: #fcfcfd;
+}
+
+/* ===================== Footer ===================== */
+.site-footer {
+  background: #ffffff;
+}
+.site-footer hr { border-color: #e9ecef; }
+.link-footer { color: #495057; text-decoration: none; }
+.link-footer:hover { color: #731358; text-decoration: underline; }
 
 /* ===================== Birthdays form (kept) ===================== */
 #birthdayForm .form-control {
@@ -125,11 +171,7 @@ i.fa-dove {
 .text-danger.action-icon { opacity: 1; }
 
 /* ===================== Birthday rows ===================== */
-.reminder-list {
-  display: block;
-  margin: 0;
-  padding: 0;
-}
+.reminder-list { display: block; margin: 0; padding: 0; }
 
 .reminder-item {
   background: transparent;
@@ -142,9 +184,7 @@ i.fa-dove {
 }
 
 /* light grey divider between rows */
-.reminder-item:not(:last-child) {
-  border-bottom: 1px solid #ececec;
-}
+.reminder-item:not(:last-child) { border-bottom: 1px solid #ececec; }
 
 /* top row: birthday (left), reminder + kebab (right) */
 .row-top {

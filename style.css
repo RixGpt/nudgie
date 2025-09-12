@@ -95,7 +95,7 @@ a:hover { opacity: 0.9; text-decoration: underline; }
   background-color: var(--nudgie-main);
   padding: 0.75rem 0;
   margin-bottom: 1rem;
-  border-bottom: 1px solid #343a40; /* dark gray border */
+  border-bottom: 2px solid #626262; /* dark gray border */
 }
 
 /* Header is on a light bg, so use dark text */

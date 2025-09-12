@@ -166,7 +166,7 @@ i.fa-dove {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: top right;
-  background-image: url("main-background.jpg");
+  background-image: url("background-main.jpg");
   pointer-events: none;
 }
 @media (max-width: 992px) {

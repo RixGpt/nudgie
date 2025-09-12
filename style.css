@@ -166,7 +166,7 @@ i.fa-dove {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: top right;
-  background-image: url("assets/hero-illustration.svg");
+  background-image: url("main-background.jpg");
   pointer-events: none;
 }
 @media (max-width: 992px) {

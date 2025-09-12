@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
-<body>
+<body class="home has-illustration">
 
   <!-- Top Header / Menu -->
   <div class="header-bar mb-4">
@@ -24,33 +24,32 @@
 
       <div class="ms-3">
         <a href="login.html" class="btn btn-outline-primary btn-sm me-2">Log in</a>
-        <a href="signup.html" class="btn btn-primary btn-sm">Get started</a>
+        <a href="signup.html" class="btn btn-accent btn-sm">Get started</a>
       </div>
     </div>
   </div>
 
-  <!-- Main content (pushes footer down on short pages) -->
+  <!-- Main content -->
   <main>
-
     <!-- Megatron (Hero) -->
-    <section class="py-4">
+    <section class="py-5 position-relative">
       <div class="container-narrow px-3 px-sm-4">
-        <div class="megatron p-4 p-md-5">
+        <div class="megatron">
           <h2 class="fw-bold mb-2">Reminders that help you take action</h2>
           <p class="lead mb-3">
             Nudgie doesn’t just help you remember — it gives you the nudge to actually follow through.
             Replace your air filter. Buy that birthday gift. Reach out. All for free — no tracking, no tricks.
           </p>
           <div class="d-flex flex-wrap gap-2">
-            <a href="signup.html" class="btn btn-primary">Get started — it’s free</a>
-            <a href="about.html" class="btn btn-outline-secondary">How it works</a>
+            <a href="signup.html" class="btn btn-accent btn-lg">Get started — it’s free</a>
+            <a href="about.html" class="btn btn-outline-secondary btn-lg">How it works</a>
           </div>
 
           <div class="d-flex gap-3 mt-4">
             <div class="icon-box" aria-label="Birthdays"><i class="fas fa-gift"></i></div>
             <div class="icon-box" aria-label="Calendar"><i class="fas fa-calendar-check"></i></div>
-            <div class="icon-box" aria-label="Home"><i class="fas fa-home"></i></div>
-            <div class="icon-box" aria-label="Friends"><i class="fas fa-user-friends"></i></div>
+            <div class="icon-box" aria-label="Home"><i class="fas fa-house"></i></div>
+            <div class="icon-box" aria-label="Friends"><i class="fas fa-user-group"></i></div>
           </div>
         </div>
       </div>
@@ -76,7 +75,7 @@
       </div>
     </section>
 
-    <!-- Optional Screenshots (kept simple/placeholders) -->
+    <!-- Optional Screenshots -->
     <section class="pb-5">
       <div class="container-narrow px-3 px-sm-4">
         <div class="row g-3">
@@ -89,17 +88,14 @@
         </div>
       </div>
     </section>
-
   </main>
 
-  <!-- Footer (injected once, shared across pages) -->
+  <!-- Footer (shared) -->
   <div id="footer-placeholder"></div>
   <script>
     fetch("footer.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("footer-placeholder").innerHTML = data;
-      })
+      .then(r => r.text())
+      .then(html => { document.getElementById("footer-placeholder").innerHTML = html; })
       .catch(err => console.error("Footer load failed:", err));
   </script>
 

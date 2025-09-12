@@ -5,7 +5,7 @@ html, body {
 
 body {
   font-family: Arial, sans-serif; 
-  background-color: #fff;
+  background-color: #f8f9fa;
   margin: 0;
   font-size: 0.95rem; 
   display: flex;
@@ -154,4 +154,139 @@ i.fa-dove {
 /* ===================== Section card ===================== */
 .section-card {
   background-color: #ffffff;
-  border: 1px solid #e9ecef
+  border: 1px solid #e9ecef;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  margin-bottom: 1.5rem;
+}
+
+/* ===================== Birthday rows ===================== */
+.reminder-list { display: block; margin: 0; padding: 0; }
+
+.reminder-item {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 10px 2px;
+  margin: 0;
+  position: relative;
+}
+.reminder-item:not(:last-child) { border-bottom: 1px solid #e9ecef; }
+
+.row-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+
+.left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.birthday-date {
+  font-weight: 600;
+  color: #731358;
+  white-space: nowrap;
+}
+
+.reminder-title {
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+.last-name {
+  font-weight: 400;
+  color: #212529;
+}
+
+.meta-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+  line-height: 1.2;
+}
+.actual-bday {
+  color: #731358;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.meta-stack .text-muted {
+  color: #6c757d !important;
+  white-space: nowrap;
+}
+
+/* kebab dropdown */
+.kebab-btn {
+  border: none;
+  background: transparent;
+  padding: 2px 6px;
+  line-height: 1;
+  border-radius: 8px;
+}
+.kebab-btn:hover { background: rgba(0,0,0,0.04); }
+.kebab-btn:focus { box-shadow: none; }
+.kebab-icon { font-size: 1rem; color: #6c757d; }
+
+.dropdown-menu {
+  min-width: 150px;
+  border-radius: 10px;
+  border-color: #e9ecef;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+.dropdown-item { padding: 8px 12px; }
+
+/* ===================== Edit state ===================== */
+.card-view { display: block; }
+.card-edit { display: none; }
+.reminder-item.editing .card-view { display: none; }
+.reminder-item.editing .card-edit { display: block; }
+
+.card-edit .form-label { margin-bottom: 4px; font-size: .85rem; color:#6c757d; }
+.card-edit .form-control,
+.card-edit .form-select { height: 36px; padding: .375rem .5rem; font-size: .95rem; }
+.card-edit .edit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+}
+.card-edit .edit-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* ===================== Loading overlay ===================== */
+#loadingOverlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(115, 19, 88, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  color: #fff;
+}
+#loadingOverlay .spinner-border {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+}
+.loading-text {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ===================== Responsive ===================== */
+@media (max-width: 576px) {
+  .reminder-item { padding: 10px 0; }
+  .card-edit .edit-grid { grid-template-columns: 1fr; }
+}

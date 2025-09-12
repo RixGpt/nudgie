@@ -158,6 +158,27 @@
       loadBirthdays();
     });
 
+    // ---------- Helpers to compute and format "next birthday" ----------
+    function pad2(n){ return String(n).padStart(2,'0'); }
+    function formatMMDDYYYY(d){
+      const mm = pad2(d.getMonth()+1);
+      const dd = pad2(d.getDate());
+      const yyyy = d.getFullYear();
+      return `${mm}/${dd}/${yyyy}`;
+    }
+    // Given ISO "YYYY-MM-DD", return next occurrence in MM/DD/YYYY
+    function nextBirthdayDisplay(iso) {
+      if (!iso) return "—";
+      const today = new Date();
+      const [y, m, d] = iso.split('-').map(Number);
+      const thisYear = new Date(today.getFullYear(), (m-1), d);
+      const todayTrunc = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const next = (thisYear >= todayTrunc)
+        ? thisYear
+        : new Date(today.getFullYear()+1, (m-1), d);
+      return formatMMDDYYYY(next);
+    }
+
     async function loadBirthdays() {
       const filterFormula = `email="${email}"`;
       const res = await fetch(`${apiURL}?filterByFormula=${encodeURIComponent(filterFormula)}`, {
@@ -186,8 +207,9 @@
         const { name, lastName, date, birthdayDisplay, nextReminderDisplay } = record.fields;
         const id = record.id;
 
-        const bday = birthdayDisplay || "—";
-        const reminder = nextReminderDisplay || "—";
+        const actualBirthdayDisplay = birthdayDisplay || "—";     // e.g., 01/01
+        const reminderDisplay = nextReminderDisplay || "—";       // e.g., 12/01/2025
+        const nextBday = nextBirthdayDisplay(date);               // e.g., 01/01/2026
 
         const card = document.createElement("div");
         card.className = "reminder-item";
@@ -195,10 +217,16 @@
 
         card.innerHTML = `
           <div class="card-view">
-            <div class="row-top">
-              <div class="birthday-date">${bday}</div>
-              <div class="row-tools">
-                <div class="next-reminder"><i class="fa-regular fa-bell me-1"></i>${reminder}</div>
+            <div class="row-top d-flex justify-content-between align-items-start">
+              <!-- Left: BIG purple date now shows NEXT birthday -->
+              <div class="birthday-date">${nextBday}</div>
+
+              <!-- Right: Actual birthday (cake, purple non-bold) with next reminder beneath (grey) + kebab -->
+              <div class="d-flex align-items-start gap-2">
+                <div class="meta-stack me-2 text-end">
+                  <div class="actual-bday"><i class="fa-solid fa-cake-candles me-1"></i>${actualBirthdayDisplay}</div>
+                  <div class="text-muted"><i class="fa-regular fa-bell me-1"></i>${reminderDisplay}</div>
+                </div>
                 <div class="dropdown">
                   <button class="kebab-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Actions">
                     <i class="fa-solid fa-ellipsis-vertical kebab-icon"></i>

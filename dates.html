@@ -25,7 +25,7 @@
     </div>
   </div>
 
-  <!-- Main (flex item to push footer down on short pages) -->
+  <!-- Main -->
   <main>
     <div class="container-narrow px-3 px-sm-4">
 
@@ -72,9 +72,12 @@
         <span>We will email you at 4 weeks, 2 weeks, 1 week, and on the day of these birthdays.</span>
       </div>
 
-      <!-- List -->
-      <div id="birthdayList" class="reminder-list">
-        <!-- rows injected here -->
+      <!-- Section card around the list -->
+      <div class="section-card">
+        <!-- List -->
+        <div id="birthdayList" class="reminder-list">
+          <!-- rows injected here -->
+        </div>
       </div>
 
     </div>
@@ -160,13 +163,14 @@
 
     // ---------- Helpers to compute and format "next birthday" ----------
     function pad2(n){ return String(n).padStart(2,'0'); }
-    function formatMMDDYYYY(d){
-      const mm = pad2(d.getMonth()+1);
+    const MONS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    function formatDDMonYYYY(d){
       const dd = pad2(d.getDate());
+      const mon = MONS[d.getMonth()];
       const yyyy = d.getFullYear();
-      return `${mm}/${dd}/${yyyy}`;
+      return `${dd} ${mon} ${yyyy}`;
     }
-    // Given ISO "YYYY-MM-DD", return next occurrence in MM/DD/YYYY
+    // Given ISO "YYYY-MM-DD", return next occurrence in DD Mon YYYY
     function nextBirthdayDisplay(iso) {
       if (!iso) return "—";
       const today = new Date();
@@ -176,7 +180,7 @@
       const next = (thisYear >= todayTrunc)
         ? thisYear
         : new Date(today.getFullYear()+1, (m-1), d);
-      return formatMMDDYYYY(next);
+      return formatDDMonYYYY(next);
     }
 
     async function loadBirthdays() {
@@ -207,9 +211,10 @@
         const { name, lastName, date, birthdayDisplay, nextReminderDisplay } = record.fields;
         const id = record.id;
 
-        const actualBirthdayDisplay = birthdayDisplay || "—";     // e.g., 15 Sep 1948 (your display format)
-        const reminderDisplay = nextReminderDisplay || "—";       // e.g., 08 Dec 2025
-        const nextBday = nextBirthdayDisplay(date);               // e.g., 01/05/2026
+        // All displays now use DD Mon YYYY
+        const actualBirthdayDisplay = birthdayDisplay || "—";     // already in DD Mon YYYY from Airtable
+        const reminderDisplay = nextReminderDisplay || "—";       // already in DD Mon YYYY from Airtable
+        const nextBday = nextBirthdayDisplay(date);               // computed in DD Mon YYYY
 
         const card = document.createElement("div");
         card.className = "reminder-item";

@@ -57,7 +57,7 @@ p, .lead, .btn, .form-label, input, select, textarea {
 .btn-primary,
 .btn-outline-primary,
 .btn-accent {
-  background-color: var(--nudgie-accent);
+  -color: var(--nudgie-accent);
   border-color: var(--nudgie-accent);
   color: #fff !important;
   border-radius: .5rem;
@@ -153,7 +153,7 @@ i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
 .home.has-illustration {
   position: relative;
   isolation: isolate;
-  background-image: url("background-main.jpg");
+  background-image: url("background-main.png");
   background-size: cover;             /* fill the whole page */
   background-repeat: no-repeat;
   background-position: center;

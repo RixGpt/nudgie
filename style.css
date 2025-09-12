@@ -148,12 +148,11 @@ i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
 }
 .icon-box i { font-size: 1rem; color: var(--nudgie-accent); }
 
-/* ===================== Page Illustration (full bleed) ===================== */
+/* ===================== Page Illustration (full bleed with white wash) ===================== */
 /* Add class="home has-illustration" to <body> on the homepage */
 .home.has-illustration {
   position: relative;
   isolation: isolate;
-  /* Fallback if ::before is unavailable */
   background-image: url("background-main.jpg");
   background-size: cover;             /* fill the whole page */
   background-repeat: no-repeat;
@@ -161,13 +160,14 @@ i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
   background-attachment: fixed;       /* stays put while scrolling */
 }
 
-/* Optional: soft white veil to keep text readable */
+/* White wash overlay */
 .home.has-illustration::before {
   content: "";
   position: fixed;
-  inset: 0;                           /* cover the entire viewport */
+  inset: 0;                           /* cover entire viewport */
   z-index: -1;
-  background: rgba(255,255,255,0.08); /* subtle wash */
+  background-color: rgba(255, 255, 255, 0.75); 
+  /* adjust 0.75 → 0.6 (more image) or 0.9 (whiter background) */
   pointer-events: none;
 }
 

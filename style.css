@@ -1,5 +1,4 @@
 /* ===================== Base styles ===================== */
-/* Make footer stick to bottom on short pages */
 html, body { 
   height: 100%; 
 }
@@ -15,7 +14,7 @@ body {
 
 main {
   flex: 1;
-  padding-bottom: 1.0rem; /* pushes footer down */
+  padding-bottom: 1.0rem;
 }
 
 .container-narrow {
@@ -24,13 +23,13 @@ main {
   padding-top: 10px;
 }
 
-/* Primary buttons now purple */
+/* Primary buttons */
 .btn-primary {
   background-color: #731358;
   border-color: #731358;
 }
 .btn-primary:hover {
-  background-color: #5a0f43; /* darker purple */
+  background-color: #5a0f43;
   border-color: #5a0f43;
 }
 
@@ -38,15 +37,15 @@ a {
   text-decoration: none;
   color: #731358;
 }
-a:hover { color: #5a0f43; } /* darker purple on hover */
+a:hover { color: #5a0f43; }
 
 .form-label { font-size: 0.875rem; }
 .table thead th { font-weight: 600; }
 .alert { font-size: 0.95rem; }
 
-/* ===================== Header block ===================== */
+/* ===================== Header ===================== */
 .header-bar {
-  background-color: #731358; /* purple background */
+  background-color: #731358;
   padding: 0.75rem 0;
   margin-bottom: 1rem;
 }
@@ -55,22 +54,21 @@ a:hover { color: #5a0f43; } /* darker purple on hover */
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;
-  color: #fff; /* white text */
+  color: #fff;
 }
 
 .header-bar .subtitle {
   font-size: 0.85rem;
   margin: 0;
-  color: #f1ddee; /* soft light purple-grey */
+  color: #f1ddee;
 }
 
 i.fa-dove {
   font-size: 2.5rem;
-  color: #fff; /* white icon */
+  color: #fff;
   margin-right: 0.75rem;
 }
 
-/* invert header button style */
 .header-bar .btn {
   background-color: #fff;
   color: #731358;
@@ -81,7 +79,6 @@ i.fa-dove {
   color: #5a0f43;
 }
 
-/* Optional: brand/link helpers in header (no underline, keep white) */
 .header-bar a:not(.btn) { text-decoration: none; color: #fff; }
 .header-bar a:not(.btn):hover { color: #f1ddee; }
 
@@ -110,7 +107,7 @@ i.fa-dove {
 }
 .menu-bar i { margin-right: 5px; }
 
-/* ===================== Megatron (Hero) for index ===================== */
+/* ===================== Megatron ===================== */
 .megatron {
   background: #ffffff;
   border: 1px solid #e9ecef;
@@ -119,7 +116,6 @@ i.fa-dove {
 }
 .megatron .lead { color: #495057; }
 
-/* Icon row inside hero */
 .icon-box {
   width: 42px;
   height: 42px;
@@ -133,29 +129,18 @@ i.fa-dove {
 }
 .icon-box i { font-size: 1rem; color: #6c757d; }
 
-/* ===================== Screenshot placeholders (optional) ===================== */
-.screenshot-placeholder {
-  height: 220px;
-  border: 1px dashed #ced4da;
-  border-radius: 0.75rem;
-  display: grid;
-  place-items: center;
-  color: #6c757d;
-  background: #fcfcfd;
-}
-
 /* ===================== Footer ===================== */
 .site-footer {
-  background: #212529; /* Bootstrap "dark gray/black" */
+  background: #212529;
   color: #fff;
-  padding-top: 0.25rem !important;  /* reduce top padding */
+  padding-top: 0.25rem !important;
   padding-bottom: 0.25rem !important; 
 }
 .site-footer hr { border-color: rgba(255,255,255,0.2); }
 .link-footer { color: #fff; text-decoration: none; }
 .link-footer:hover { color: #adb5bd; text-decoration: underline; }
 
-/* ===================== Birthdays form (kept) ===================== */
+/* ===================== Birthdays form ===================== */
 #birthdayForm .form-control {
   padding: 0.375rem 0.5rem;
   font-size: 0.875rem;
@@ -166,148 +151,7 @@ i.fa-dove {
 }
 #birthdayForm .col-md-4 { margin-bottom: 0.5rem; }
 
-/* ===================== Action icons (legacy shared) ===================== */
-.action-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  margin-right: 6px;
-  border-radius: 8px;
-  transition: background-color .15s ease, opacity .15s ease, transform .05s ease;
-  cursor: pointer;
-  font-size: 1rem;
-}
-.action-icon:last-child { margin-right: 0; }
-.action-icon:hover { background-color: rgba(0,0,0,0.05); opacity: .95; }
-.action-icon:active { transform: translateY(1px); }
-.text-primary.action-icon,
-.text-danger.action-icon { opacity: 1; }
-
-/* ===================== Section card for birthdays list ===================== */
+/* ===================== Section card ===================== */
 .section-card {
   background-color: #ffffff;
-  border: 1px solid #e9ecef;   /* same as menu box */
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem;     /* subtle inner breathing room */
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-  margin-bottom: 1.5rem;
-}
-
-/* ===================== Birthday rows ===================== */
-.reminder-list { display: block; margin: 0; padding: 0; }
-
-.reminder-item {
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 10px 2px;
-  margin: 0;
-  position: relative;
-}
-
-/* light grey divider between rows */
-.reminder-item:not(:last-child) { border-bottom: 1px solid #e9ecef; }
-
-/* top row: LEFT (next birthday + name), RIGHT (actual + reminder + kebab) */
-.row-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 2px;
-}
-
-/* LEFT column stacks the purple date and the name tightly */
-.left-col {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-/* Left: NEXT birthday (now the big purple one) */
-.birthday-date {
-  font-weight: 600;
-  color: #731358; /* purple for emphasis */
-  white-space: nowrap;
-}
-
-/* Name styling under the purple date */
-.reminder-title {
-  font-weight: 700;  /* first name bold */
-  margin: 0;
-  line-height: 1.2;
-}
-.last-name {
-  font-weight: 400;  /* last name normal */
-  color: #212529;
-}
-
-/* RIGHT stack: actual birthday (cake, purple non-bold) + next reminder (light grey) */
-.meta-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  align-items: flex-end;
-  line-height: 1.2;
-}
-
-.actual-bday {
-  color: #731358;     /* purple as requested */
-  font-weight: 400;   /* non-bold */
-  white-space: nowrap;
-}
-
-.meta-stack .text-muted {
-  color: #6c757d !important; /* ensure light grey */
-  white-space: nowrap;
-}
-
-/* kebab dropdown */
-.kebab-btn {
-  border: none;
-  background: transparent;
-  padding: 2px 6px;
-  line-height: 1;
-  border-radius: 8px;
-}
-.kebab-btn:hover { background: rgba(0,0,0,0.04); }
-.kebab-btn:focus { box-shadow: none; }
-.kebab-icon { font-size: 1rem; color: #6c757d; }
-
-.dropdown-menu {
-  min-width: 150px;
-  border-radius: 10px;
-  border-color: #e9ecef;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-}
-.dropdown-item { padding: 8px 12px; }
-
-/* ===================== Edit state ===================== */
-.card-view { display: block; }
-.card-edit { display: none; }
-.reminder-item.editing .card-view { display: none; }
-.reminder-item.editing .card-edit { display: block; }
-
-.card-edit .form-label { margin-bottom: 4px; font-size: .85rem; color:#6c757d; }
-.card-edit .form-control,
-.card-edit .form-select { height: 36px; padding: .375rem .5rem; font-size: .95rem; }
-.card-edit .edit-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px 12px;
-}
-.card-edit .edit-actions {
-  margin-top: 8px;
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-}
-
-/* ===================== Responsive ===================== */
-@media (max-width: 576px) {
-  .reminder-item { padding: 10px 0; }
-  .card-edit .edit-grid { grid-template-columns: 1fr; }
-}
+  border: 1px solid #e9ecef

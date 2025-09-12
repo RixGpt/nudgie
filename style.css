@@ -15,7 +15,7 @@ body {
 
 main {
   flex: 1;
-  padding-bottom: 1.0rem;/* pushes footer down */
+  padding-bottom: 1.0rem; /* pushes footer down */
 }
 
 .container-narrow {
@@ -155,7 +155,6 @@ i.fa-dove {
 .link-footer { color: #fff; text-decoration: none; }
 .link-footer:hover { color: #adb5bd; text-decoration: underline; }
 
-
 /* ===================== Birthdays form (kept) ===================== */
 #birthdayForm .form-control {
   padding: 0.375rem 0.5rem;
@@ -202,7 +201,7 @@ i.fa-dove {
 /* light grey divider between rows */
 .reminder-item:not(:last-child) { border-bottom: 1px solid #ececec; }
 
-/* top row: birthday (left), reminder + kebab (right) */
+/* top row: next birthday (left), actual + reminder + kebab (right) */
 .row-top {
   display: flex;
   align-items: center;
@@ -217,18 +216,31 @@ i.fa-dove {
   gap: 6px;
 }
 
-/* birthday + reminder */
+/* Left: NEXT birthday (now the big purple one) */
 .birthday-date {
   font-weight: 600;
-  color: #731358; /* now purple */
+  color: #731358; /* purple for emphasis */
+  white-space: nowrap;
 }
 
-.next-reminder {
-  color: #6c757d;
-  white-space: nowrap;
-  font-size: 0.9rem;
+/* Right stack: actual birthday (cake, purple non-bold) + next reminder (light grey) */
+.meta-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
 }
-.next-reminder i { opacity: 0.9; }
+
+.actual-bday {
+  color: #731358;     /* purple as requested */
+  font-weight: 400;   /* non-bold */
+  white-space: nowrap;
+}
+
+.meta-stack .text-muted {
+  color: #6c757d !important; /* ensure light grey */
+  white-space: nowrap;
+}
 
 /* names */
 .reminder-title {
@@ -286,3 +298,4 @@ i.fa-dove {
   .reminder-item { padding: 10px 0; }
   .card-edit .edit-grid { grid-template-columns: 1fr; }
 }
+

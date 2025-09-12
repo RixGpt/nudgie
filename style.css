@@ -27,8 +27,8 @@ main {
 
 /* Brand palette */
 :root {
-  --nudgie-main: #a019a4;
-  --nudgie-accent: #19a4a0; /* All buttons now use this */
+  --nudgie-main: #6a4c93;
+  --nudgie-accent: #ff595e; /* All buttons now use this */
   --nudgie-accent-600: #12837f;
   --muted-border: #e9ecef;
   --muted-text: #6c757d;

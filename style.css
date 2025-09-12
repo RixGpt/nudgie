@@ -153,7 +153,7 @@ i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
 .home.has-illustration {
   position: relative;
   isolation: isolate;
-  background-image: url("background-main.png");
+  background-image: url("background-main2.png");
   background-size: cover;             /* fill the whole page */
   background-repeat: no-repeat;
   background-position: center;

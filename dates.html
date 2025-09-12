@@ -207,9 +207,9 @@
         const { name, lastName, date, birthdayDisplay, nextReminderDisplay } = record.fields;
         const id = record.id;
 
-        const actualBirthdayDisplay = birthdayDisplay || "—";     // e.g., 01/01
-        const reminderDisplay = nextReminderDisplay || "—";       // e.g., 12/01/2025
-        const nextBday = nextBirthdayDisplay(date);               // e.g., 01/01/2026
+        const actualBirthdayDisplay = birthdayDisplay || "—";     // e.g., 15 Sep 1948 (your display format)
+        const reminderDisplay = nextReminderDisplay || "—";       // e.g., 08 Dec 2025
+        const nextBday = nextBirthdayDisplay(date);               // e.g., 01/05/2026
 
         const card = document.createElement("div");
         card.className = "reminder-item";
@@ -218,10 +218,15 @@
         card.innerHTML = `
           <div class="card-view">
             <div class="row-top d-flex justify-content-between align-items-start">
-              <!-- Left: BIG purple date now shows NEXT birthday -->
-              <div class="birthday-date">${nextBday}</div>
+              <!-- LEFT: next birthday (purple) + name underneath -->
+              <div class="left-col">
+                <div class="birthday-date">${nextBday}</div>
+                <div class="reminder-title">
+                  ${name || ""} <span class="last-name">${lastName || ""}</span>
+                </div>
+              </div>
 
-              <!-- Right: Actual birthday (cake, purple non-bold) with next reminder beneath (grey) + kebab -->
+              <!-- RIGHT: Actual birthday (cake, purple non-bold) + next reminder (grey) + kebab -->
               <div class="d-flex align-items-start gap-2">
                 <div class="meta-stack me-2 text-end">
                   <div class="actual-bday"><i class="fa-solid fa-cake-candles me-1"></i>${actualBirthdayDisplay}</div>
@@ -239,21 +244,18 @@
               </div>
             </div>
 
-            <div class="reminder-title">
-              ${name || ""} <span class="last-name">${lastName || ""}</span>
-            </div>
-          </div>
-
-          <div class="card-edit">
-            <div class="edit-grid">
-              <div>
-                <label class="form-label">Birthday</label>
-                <input type="date" id="editDate-${id}" class="form-control form-control-sm" value="${date || ""}" />
+            <!-- Edit panel -->
+            <div class="card-edit">
+              <div class="edit-grid">
+                <div>
+                  <label class="form-label">Birthday</label>
+                  <input type="date" id="editDate-${id}" class="form-control form-control-sm" value="${date || ""}" />
+                </div>
               </div>
-            </div>
-            <div class="edit-actions">
-              <button class="btn btn-sm btn-success" onclick="updateBirthday('${id}')">Save</button>
-              <button class="btn btn-sm btn-secondary" onclick="exitEdit(document.getElementById('card-${id}'))">Cancel</button>
+              <div class="edit-actions">
+                <button class="btn btn-sm btn-success" onclick="updateBirthday('${id}')">Save</button>
+                <button class="btn btn-sm btn-secondary" onclick="exitEdit(document.getElementById('card-${id}'))">Cancel</button>
+              </div>
             </div>
           </div>
         `;

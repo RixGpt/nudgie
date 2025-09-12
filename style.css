@@ -185,6 +185,16 @@ i.fa-dove {
 .text-primary.action-icon,
 .text-danger.action-icon { opacity: 1; }
 
+/* ===================== Section card for birthdays list ===================== */
+.section-card {
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;   /* same as menu box */
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;     /* subtle inner breathing room */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  margin-bottom: 1.5rem;
+}
+
 /* ===================== Birthday rows ===================== */
 .reminder-list { display: block; margin: 0; padding: 0; }
 
@@ -199,7 +209,7 @@ i.fa-dove {
 }
 
 /* light grey divider between rows */
-.reminder-item:not(:last-child) { border-bottom: 1px solid #ececec; }
+.reminder-item:not(:last-child) { border-bottom: 1px solid #e9ecef; }
 
 /* top row: LEFT (next birthday + name), RIGHT (actual + reminder + kebab) */
 .row-top {

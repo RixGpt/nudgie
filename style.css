@@ -151,6 +151,8 @@ i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
 
 /* ===================== Page Illustration (full bleed with white wash) ===================== */
 /* Add class="home has-illustration" to <body> on the homepage */
+/* ===================== Page Illustration (full bleed with white wash) ===================== */
+/* Add class="home has-illustration" to <body> on the homepage */
 .home.has-illustration {
   position: relative;
   isolation: isolate;
@@ -177,8 +179,12 @@ i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
     background-attachment: scroll;    /* better perf on mobile */
     background-position: center top;
   }
-  .home.has-illustration::before { display: none; }
+  .home.has-illustration::before {
+    display: block;                   /* keep white wash visible */
+    background-color: rgba(255, 255, 255, 0.85);
+  }
 }
+
 
 /* ===================== Footer ===================== */
 .site-footer {

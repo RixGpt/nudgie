@@ -5,7 +5,7 @@ html, body {
 
 body {
   font-family: Arial, sans-serif; 
-  background-color: #f8f9fa;
+  background-color: #ffffff; /* White page background */
   margin: 0;
   font-size: 0.95rem; 
   display: flex;
@@ -23,21 +23,46 @@ main {
   padding-top: 10px;
 }
 
+/* Brand palette */
+:root {
+  --nudgie-purple: #731358;
+  --nudgie-purple-600: #5a0f43;
+  /* Accent (teal pop) */
+  --nudgie-accent: #19a4a0;
+  --nudgie-accent-600: #12837f;
+
+  --muted-border: #e9ecef;
+  --muted-text: #6c757d;
+}
+
 /* Primary buttons */
 .btn-primary {
-  background-color: #731358;
-  border-color: #731358;
+  background-color: var(--nudgie-purple);
+  border-color: var(--nudgie-purple);
 }
 .btn-primary:hover {
-  background-color: #5a0f43;
-  border-color: #5a0f43;
+  background-color: var(--nudgie-purple-600);
+  border-color: var(--nudgie-purple-600);
+}
+
+/* Accent buttons (new) */
+.btn-accent {
+  background-color: var(--nudgie-accent);
+  border-color: var(--nudgie-accent);
+  color: #fff;
+}
+.btn-accent:hover,
+.btn-accent:focus {
+  background-color: var(--nudgie-accent-600);
+  border-color: var(--nudgie-accent-600);
+  color: #fff;
 }
 
 a {
   text-decoration: none;
-  color: #731358;
+  color: var(--nudgie-purple);
 }
-a:hover { color: #5a0f43; }
+a:hover { color: var(--nudgie-purple-600); }
 
 .form-label { font-size: 0.875rem; }
 .table thead th { font-weight: 600; }
@@ -45,7 +70,7 @@ a:hover { color: #5a0f43; }
 
 /* ===================== Header ===================== */
 .header-bar {
-  background-color: #731358;
+  background-color: var(--nudgie-purple);
   padding: 0.75rem 0;
   margin-bottom: 1rem;
 }
@@ -71,12 +96,12 @@ i.fa-dove {
 
 .header-bar .btn {
   background-color: #fff;
-  color: #731358;
+  color: var(--nudgie-purple);
   border-color: #fff;
 }
 .header-bar .btn:hover {
   background-color: #f8f9fa;
-  color: #5a0f43;
+  color: var(--nudgie-purple-600);
 }
 
 .header-bar a:not(.btn) { text-decoration: none; color: #fff; }
@@ -85,7 +110,7 @@ i.fa-dove {
 /* ===================== Menu bar ===================== */
 .menu-bar {
   background-color: #ffffff;
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--muted-border);
   border-radius: 0.5rem;
   padding: 0.75rem;
   margin-bottom: 1.5rem;
@@ -108,26 +133,72 @@ i.fa-dove {
 .menu-bar i { margin-right: 5px; }
 
 /* ===================== Megatron ===================== */
+/* Remove the card/box look: no background/border/shadow */
 .megatron {
-  background: #ffffff;
-  border: 1px solid #e9ecef;
-  border-radius: 0.75rem;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 .megatron .lead { color: #495057; }
 
+/* Feature icons under hero */
 .icon-box {
   width: 42px;
   height: 42px;
   border-radius: 0.5rem;
   background: #fff;
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--muted-border);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
-.icon-box i { font-size: 1rem; color: #6c757d; }
+.icon-box i { font-size: 1rem; color: var(--nudgie-purple); }
+
+/* ===================== Page Illustration (Homepage) ===================== */
+/* Add class="home has-illustration" on <body> to enable */
+.home.has-illustration {
+  position: relative;
+  isolation: isolate;
+}
+.home.has-illustration::before {
+  content: "";
+  position: fixed;
+  top: -80px;
+  right: -60px;
+  width: 820px;
+  height: 820px;
+  z-index: -1;
+  opacity: 0.12; /* subtle so the page stays clean */
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top right;
+  /* Replace with your real asset */
+  background-image: url("assets/hero-illustration.svg");
+  pointer-events: none;
+}
+
+/* Fallback decorative pattern if the SVG is missing */
+@supports not (background-image: url("assets/hero-illustration.svg")) {
+  .home.has-illustration::before {
+    background:
+      radial-gradient(circle at 70% 20%, rgba(115,19,88,0.08) 0 220px, transparent 221px),
+      radial-gradient(circle at 95% 5%, rgba(25,164,160,0.12) 0 140px, transparent 141px);
+  }
+}
+
+@media (max-width: 992px) {
+  .home.has-illustration::before {
+    width: 560px;
+    height: 560px;
+    top: -60px;
+    right: -100px;
+    opacity: 0.10;
+  }
+}
+@media (max-width: 576px) {
+  .home.has-illustration::before { display: none; } /* keep mobile clean */
+}
 
 /* ===================== Footer ===================== */
 .site-footer {
@@ -154,7 +225,7 @@ i.fa-dove {
 /* ===================== Section card ===================== */
 .section-card {
   background-color: #ffffff;
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--muted-border);
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
@@ -173,7 +244,7 @@ i.fa-dove {
   margin: 0;
   position: relative;
 }
-.reminder-item:not(:last-child) { border-bottom: 1px solid #e9ecef; }
+.reminder-item:not(:last-child) { border-bottom: 1px solid var(--muted-border); }
 
 .row-top {
   display: flex;
@@ -191,7 +262,7 @@ i.fa-dove {
 
 .birthday-date {
   font-weight: 600;
-  color: #731358;
+  color: var(--nudgie-purple);
   white-space: nowrap;
 }
 
@@ -213,12 +284,12 @@ i.fa-dove {
   line-height: 1.2;
 }
 .actual-bday {
-  color: #731358;
+  color: var(--nudgie-purple);
   font-weight: 400;
   white-space: nowrap;
 }
 .meta-stack .text-muted {
-  color: #6c757d !important;
+  color: var(--muted-text) !important;
   white-space: nowrap;
 }
 
@@ -232,12 +303,12 @@ i.fa-dove {
 }
 .kebab-btn:hover { background: rgba(0,0,0,0.04); }
 .kebab-btn:focus { box-shadow: none; }
-.kebab-icon { font-size: 1rem; color: #6c757d; }
+.kebab-icon { font-size: 1rem; color: var(--muted-text); }
 
 .dropdown-menu {
   min-width: 150px;
   border-radius: 10px;
-  border-color: #e9ecef;
+  border-color: var(--muted-border);
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
 .dropdown-item { padding: 8px 12px; }

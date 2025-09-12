@@ -57,8 +57,8 @@ p, .lead, .btn, .form-label, input, select, textarea {
 .btn-primary,
 .btn-outline-primary,
 .btn-accent {
-  -color: var(--nudgie-accent);
-  border-color: var(--nudgie-accent);
+  background-color: var(--nudgie-accent) !important;
+  border-color: var(--nudgie-accent) !important;
   color: #fff !important;
   border-radius: .5rem;
   padding: .45rem .75rem;
@@ -67,19 +67,19 @@ p, .lead, .btn, .form-label, input, select, textarea {
 
 .btn:hover,
 .btn:focus {
-  background-color: var(--nudgie-accent-600);
-  border-color: var(--nudgie-accent-600);
+  background-color: var(--nudgie-accent-600) !important;
+  border-color: var(--nudgie-accent-600) !important;
   color: #fff !important;
 }
 
-/* Outlined secondary (for contrast) */
+/* Outlined secondary (for contrast, e.g. “How it works”) */
 .btn-outline-secondary {
   border-color: #ced4da;
   color: #343a40 !important;
-  background: #fff;
+  background: #fff !important;
 }
 .btn-outline-secondary:hover {
-  background-color: #f1f3f5;
+  background-color: #f1f3f5 !important;
   color: #111 !important;
 }
 
@@ -105,8 +105,8 @@ i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
 .header-bar a:not(.btn):hover { color: #000; }
 
 /* Keep header buttons as accent pills */
-.header-bar .btn { background-color: var(--nudgie-accent); color: #fff !important; border-color: var(--nudgie-accent); }
-.header-bar .btn:hover { background-color: var(--nudgie-accent-600); border-color: var(--nudgie-accent-600); }
+.header-bar .btn { background-color: var(--nudgie-accent) !important; color: #fff !important; border-color: var(--nudgie-accent) !important; }
+.header-bar .btn:hover { background-color: var(--nudgie-accent-600) !important; border-color: var(--nudgie-accent-600) !important; }
 
 /* ===================== Menu bar ===================== */
 .menu-bar {
@@ -153,7 +153,7 @@ i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
 .home.has-illustration {
   position: relative;
   isolation: isolate;
-  background-image: url("background-main.png");
+  background-image: url("background-main.jpg");
   background-size: cover;             /* fill the whole page */
   background-repeat: no-repeat;
   background-position: center;
@@ -166,8 +166,8 @@ i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
   position: fixed;
   inset: 0;                           /* cover entire viewport */
   z-index: -1;
-  background-color: rgba(255, 255, 255, 0.75); 
-  /* adjust 0.75 → 0.6 (more image) or 0.9 (whiter background) */
+  background-color: rgba(255, 255, 255, 0.85); 
+  /* adjust 0.85 → 0.8 (more image) or 0.9 (whiter background) */
   pointer-events: none;
 }
 

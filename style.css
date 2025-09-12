@@ -201,7 +201,7 @@ i.fa-dove {
 /* light grey divider between rows */
 .reminder-item:not(:last-child) { border-bottom: 1px solid #ececec; }
 
-/* top row: next birthday (left), actual + reminder + kebab (right) */
+/* top row: LEFT (next birthday + name), RIGHT (actual + reminder + kebab) */
 .row-top {
   display: flex;
   align-items: center;
@@ -210,10 +210,11 @@ i.fa-dove {
   margin-bottom: 2px;
 }
 
-.row-tools {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+/* LEFT column stacks the purple date and the name tightly */
+.left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 /* Left: NEXT birthday (now the big purple one) */
@@ -223,12 +224,24 @@ i.fa-dove {
   white-space: nowrap;
 }
 
-/* Right stack: actual birthday (cake, purple non-bold) + next reminder (light grey) */
+/* Name styling under the purple date */
+.reminder-title {
+  font-weight: 700;  /* first name bold */
+  margin: 0;
+  line-height: 1.2;
+}
+.last-name {
+  font-weight: 400;  /* last name normal */
+  color: #212529;
+}
+
+/* RIGHT stack: actual birthday (cake, purple non-bold) + next reminder (light grey) */
 .meta-stack {
   display: flex;
   flex-direction: column;
   gap: 2px;
   align-items: flex-end;
+  line-height: 1.2;
 }
 
 .actual-bday {
@@ -240,16 +253,6 @@ i.fa-dove {
 .meta-stack .text-muted {
   color: #6c757d !important; /* ensure light grey */
   white-space: nowrap;
-}
-
-/* names */
-.reminder-title {
-  font-weight: 700; /* first name bold */
-  margin-bottom: 0;
-}
-.last-name {
-  font-weight: 400; /* last name normal */
-  color: #212529;
 }
 
 /* kebab dropdown */
@@ -298,4 +301,3 @@ i.fa-dove {
   .reminder-item { padding: 10px 0; }
   .card-edit .edit-grid { grid-template-columns: 1fr; }
 }
-

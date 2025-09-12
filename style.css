@@ -5,19 +5,16 @@ html, body {
 
 body {
   font-family: Arial, sans-serif; 
-  background-color: #ffffff; /* White page background */
+  background-color: #ffffff;
   margin: 0;
-  font-size: 1rem; /* Unified body font size */
+  font-size: 1rem;            /* unified body font size */
   line-height: 1.5;
   display: flex;
   flex-direction: column;
   color: #212529;
 }
 
-main {
-  flex: 1;
-  padding-bottom: 1.0rem;
-}
+main { flex: 1; padding-bottom: 1rem; }
 
 .container-narrow {
   max-width: 800px;
@@ -25,34 +22,30 @@ main {
   padding-top: 10px;
 }
 
-/* Brand palette */
+/* ===================== Brand palette ===================== */
 :root {
-  --nudgie-main: #f6f6f6;              /* light header strip */
-  --nudgie-accent: #de324c;            /* primary accent (red) */
-  --nudgie-accent-600: #c1273d;        /* darker hover for red */
+  --nudgie-main: #f6f6f6;      /* light header strip */
+  --nudgie-accent: #de324c;    /* primary accent (red) */
+  --nudgie-accent-600: #c1273d;/* darker hover for red */
   --muted-border: #e9ecef;
   --muted-text: #6c757d;
 }
 
 /* ===================== Typography ===================== */
-/* Unified headers */
-h1, h2, h3, h4, h5, h6,
-.title {
+h1, h2, h3, h4, h5, h6, .title {
   font-family: Arial, sans-serif;
   font-weight: 600;
-  font-size: 1.5rem; /* same size across all headers */
+  font-size: 1.5rem;           /* one size for all headers */
   margin-bottom: 0.5rem;
   line-height: 1.3;
   color: #111;
 }
 
-/* Paragraphs, buttons, inputs, labels use same base size */
-p, .lead, .btn, .form-label, input, select, textarea {
-  font-size: 1rem;
-}
+/* body text, buttons, labels, inputs all same size */
+p, .lead, .btn, .form-label, input, select, textarea { font-size: 1rem; }
 
 /* ===================== Buttons ===================== */
-/* All buttons unified as accent color */
+/* All buttons filled with accent color */
 .btn,
 .btn-primary,
 .btn-outline-primary,
@@ -64,7 +57,6 @@ p, .lead, .btn, .form-label, input, select, textarea {
   padding: .45rem .75rem;
   line-height: 1.25;
 }
-
 .btn:hover,
 .btn:focus {
   background-color: var(--nudgie-accent-600) !important;
@@ -72,7 +64,7 @@ p, .lead, .btn, .form-label, input, select, textarea {
   color: #fff !important;
 }
 
-/* Outlined secondary (for contrast, e.g. “How it works”) */
+/* Optional gray secondary (e.g., “How it works”) */
 .btn-outline-secondary {
   border-color: #ced4da;
   color: #343a40 !important;
@@ -84,10 +76,7 @@ p, .lead, .btn, .form-label, input, select, textarea {
 }
 
 /* ===================== Links ===================== */
-a {
-  text-decoration: none;
-  color: var(--nudgie-accent);
-}
+a { text-decoration: none; color: var(--nudgie-accent); }
 a:hover { opacity: 0.9; text-decoration: underline; }
 
 /* ===================== Header ===================== */
@@ -97,17 +86,22 @@ a:hover { opacity: 0.9; text-decoration: underline; }
   margin-bottom: 1rem;
   border-bottom: 2px solid #626262; /* dark gray border */
 }
-
-/* Header is on a light bg, so use dark text */
 .header-bar .title { color: #111; }
 .header-bar .subtitle { font-size: 0.9rem; color: #6c757d; }
 i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
 .header-bar a:not(.btn) { text-decoration: none; color: #111; }
 .header-bar a:not(.btn):hover { color: #000; }
 
-/* Keep header buttons as accent pills */
-.header-bar .btn { background-color: var(--nudgie-accent) !important; color: #fff !important; border-color: var(--nudgie-accent) !important; }
-.header-bar .btn:hover { background-color: var(--nudgie-accent-600) !important; border-color: var(--nudgie-accent-600) !important; }
+/* Header buttons as accent pills */
+.header-bar .btn {
+  background-color: var(--nudgie-accent) !important;
+  color: #fff !important;
+  border-color: var(--nudgie-accent) !important;
+}
+.header-bar .btn:hover {
+  background-color: var(--nudgie-accent-600) !important;
+  border-color: var(--nudgie-accent-600) !important;
+}
 
 /* ===================== Menu bar ===================== */
 .menu-bar {
@@ -116,153 +110,91 @@ i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
   border-radius: 0.5rem;
   padding: 0.75rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
 }
 .menu-bar .btn-logout {
   background: transparent;
   color: #dc3545 !important;
   border-color: #f5c6cb;
 }
-.menu-bar .btn-logout:hover {
-  background-color: #f8d7da;
-  border-color: #f1b0b7;
-}
+.menu-bar .btn-logout:hover { background-color: #f8d7da; border-color: #f1b0b7; }
 
-/* ===================== Megatron ===================== */
-.megatron {
-  background: transparent !important;   /* remove box */
-  border: 0 !important;
-  box-shadow: none !important;
-}
+/* ===================== Hero / Megatron ===================== */
+.megatron { background: transparent !important; border: 0 !important; box-shadow: none !important; }
 .megatron .lead { color: #495057; }
 
 .icon-box {
-  width: 42px;
-  height: 42px;
-  border-radius: 0.5rem;
-  background: #fff;
-  border: 1px solid var(--muted-border);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  width: 42px; height: 42px; border-radius: .5rem;
+  background: #fff; border: 1px solid var(--muted-border);
+  display: inline-flex; align-items: center; justify-content: center;
   box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 .icon-box i { font-size: 1rem; color: var(--nudgie-accent); }
 
-/* ===================== Page Illustration (full bleed with white wash) ===================== */
-/* Add class="home has-illustration" to <body> on the homepage */
-/* ===================== Page Illustration (full bleed with white wash) ===================== */
+/* ===================== Page Illustration (simple gradient overlay) ===================== */
 /* Add class="home has-illustration" to <body> on the homepage */
 .home.has-illustration {
-  position: relative;
-  isolation: isolate;
-  background-image: url("background-main2.png");
-  background-size: cover;             /* fill the whole page */
+  background-image:
+    linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
+    url("background-main2.png");
+  background-size: cover;       /* fill page */
   background-repeat: no-repeat;
   background-position: center;
-  background-attachment: fixed;       /* stays put while scrolling */
+  background-attachment: fixed; /* pleasant desktop effect */
 }
-
-/* White wash overlay */
-.home.has-illustration::before {
-  content: "";
-  position: fixed;
-  inset: 0;                           /* cover entire viewport */
-  z-index: -1;
-  background-color: rgba(255, 255, 255, 0.85); 
-  /* adjust 0.85 → 0.8 (more image) or 0.9 (whiter background) */
-  pointer-events: none;
-}
-
+/* Mobile: drop fixed for performance */
 @media (max-width: 576px) {
-  .home.has-illustration {
-    background-attachment: scroll;    /* better perf on mobile */
-    background-position: center top;
-  }
-  .home.has-illustration::before {
-    display: block;                   /* keep white wash visible */
-    background-color: rgba(255, 255, 255, 0.85);
-  }
+  .home.has-illustration { background-attachment: scroll; background-position: center top; }
 }
-
 
 /* ===================== Footer ===================== */
 .site-footer {
-  background: #212529;
-  color: #fff;
-  padding-top: 0.25rem !important;
-  padding-bottom: 0.25rem !important; 
+  background: #212529; color: #fff;
+  padding-top: .25rem !important; padding-bottom: .25rem !important;
 }
 .link-footer { color: #fff; text-decoration: none; }
 .link-footer:hover { color: #adb5bd; text-decoration: underline; }
 
-/* ===================== Birthdays form ===================== */
-/* Normalize controls to align with Save/Cancel buttons */
+/* ===================== Forms (Birthdays) ===================== */
 #birthdayForm .form-control {
-  height: 38px;
-  padding: 0.375rem 0.5rem;
-  line-height: 1.25;
-  border-radius: .5rem;
+  height: 38px; padding: 0.375rem 0.5rem; line-height: 1.25; border-radius: .5rem;
 }
-#birthdayForm .form-label {
-  margin-bottom: 0.25rem;
-}
+#birthdayForm .form-label { margin-bottom: 0.25rem; }
 #birthdayForm .col-md-4 { margin-bottom: 0.5rem; }
 
-/* Make Save/Cancel align nicely with inputs in edit rows */
+/* Align Save/Cancel with inputs in edit rows */
 .reminder-item .btn { 
-  height: 38px;
-  display: inline-flex; align-items: center; 
-  padding: 0 .9rem;
+  height: 38px; display: inline-flex; align-items: center; padding: 0 .9rem;
 }
 
 /* ===================== Section card ===================== */
 .section-card {
-  background-color: #ffffff;
-  border: 1px solid var(--muted-border);
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-  margin-bottom: 1.5rem;
+  background: #ffffff; border: 1px solid var(--muted-border);
+  border-radius: .5rem; padding: .5rem .75rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03); margin-bottom: 1.5rem;
 }
 
 /* ===================== Birthday rows ===================== */
 .reminder-list { display: block; margin: 0; padding: 0; }
-
-.reminder-item { 
-  padding: 10px 2px; 
-}
+.reminder-item { padding: 10px 2px; }
 .reminder-item:not(:last-child) { border-bottom: 1px solid var(--muted-border); }
 
-.row-top {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  gap: 12px; margin-bottom: 2px;
-}
-
+.row-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 2px; }
 .left-col { display: flex; flex-direction: column; gap: 4px; }
 
-.birthday-date { 
-  font-weight: 600; 
-  color: var(--nudgie-accent); 
-  white-space: nowrap;
-}
-
+.birthday-date { font-weight: 600; color: var(--nudgie-accent); white-space: nowrap; }
 .reminder-title { font-weight: 700; margin: 0; }
 .meta-stack { display: flex; flex-direction: column; gap: 2px; align-items: flex-end; }
 .actual-bday { color: var(--nudgie-accent); }
 
-/* Kebab dropdown */
-.kebab-btn {
-  border: none; background: transparent; padding: 2px 6px; line-height: 1; border-radius: 8px;
-}
+/* kebab dropdown */
+.kebab-btn { border: none; background: transparent; padding: 2px 6px; line-height: 1; border-radius: 8px; }
 .kebab-btn:hover { background: rgba(0,0,0,0.04); }
 .kebab-btn:focus { box-shadow: none; }
 .kebab-icon { font-size: 1rem; color: var(--muted-text); }
 
 .dropdown-menu {
-  min-width: 150px;
-  border-radius: 10px;
-  border-color: var(--muted-border);
+  min-width: 150px; border-radius: 10px; border-color: var(--muted-border);
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
 .dropdown-item { padding: 8px 12px; }
@@ -273,25 +205,15 @@ i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
 .reminder-item.editing .card-view { display: none; }
 .reminder-item.editing .card-edit { display: block; }
 
-.card-edit .form-label { margin-bottom: 4px; font-size: .95rem; color:#6c757d; }
-.card-edit .form-control,
-.card-edit .form-select { height: 38px; padding: .375rem .5rem; font-size: 1rem; }
-.card-edit .edit-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px 12px;
-}
-.card-edit .edit-actions {
-  margin-top: 8px;
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-}
+.card-edit .form-label { margin-bottom: 4px; font-size: 1rem; color:#6c757d; }
+.card-edit .form-control, .card-edit .form-select { height: 38px; padding: .375rem .5rem; font-size: 1rem; }
+.card-edit .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; }
+.card-edit .edit-actions { margin-top: 8px; display: flex; gap: 8px; justify-content: flex-end; }
 
 /* ===================== Loading overlay ===================== */
 #loadingOverlay {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(222, 50, 76, 0.9); /* Accent background (red) */
+  position: fixed; inset: 0;
+  background: rgba(222,50,76,0.9);
   display: flex; flex-direction: column; justify-content: center; align-items: center;
   z-index: 1050; color: #fff;
 }

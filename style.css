@@ -24,7 +24,7 @@ main { flex: 1; padding-bottom: 1rem; }
 
 /* ===================== Brand palette ===================== */
 :root {
-  --nudgie-main: #f6f6f6;      /* light header strip */
+  --nudgie-main: #fff;      /* light header strip */
   --nudgie-accent: #de324c;    /* primary accent (red) */
   --nudgie-accent-600: #c1273d;/* darker hover for red */
   --muted-border: #e9ecef;

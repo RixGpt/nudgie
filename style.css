@@ -120,7 +120,7 @@ i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
 .menu-bar .btn-logout:hover { background-color: #f8d7da; border-color: #f1b0b7; }
 
 /* ===================== Hero / Megatron ===================== */
-.megatron { background: #f3f3f3 !important; border: 0 !important; box-shadow: none !important; }
+.megatron { background: transparent !important; border: 0 !important; box-shadow: none !important; }
 .megatron .lead { color: #495057; }
 
 .icon-box {

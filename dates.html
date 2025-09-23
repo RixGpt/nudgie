@@ -77,7 +77,7 @@
 
       <div class="alert alert-warning mb-4 d-flex align-items-center" role="alert">
         <i class="fas fa-birthday-cake me-2 text-warning"></i>
-        <span>We will email you at 4 weeks, 2 weeks, 1 week, and on the day of these birthdays.</span>
+        <span>We'll email you reminders at 21 days before, 7 days before, and on the day of these birthdays.</span>
       </div>
 
       <!-- Section card around the list -->
@@ -177,26 +177,44 @@
       loadBirthdays();
     });
 
-    // ---------- Helpers to compute and format "next birthday" ----------
+    // ---------- Helpers to compute and format "next birthday" & days left ----------
     function pad2(n){ return String(n).padStart(2,'0'); }
     const MONS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
     function formatDDMonYYYY(d){
       const dd = pad2(d.getDate());
       const mon = MONS[d.getMonth()];
       const yyyy = d.getFullYear();
       return `${dd} ${mon} ${yyyy}`;
     }
-    // Given ISO "YYYY-MM-DD", return next occurrence in DD Mon YYYY
-    function nextBirthdayDisplay(iso) {
-      if (!iso) return "—";
+
+    // Return the Date object for the next birthday occurrence given ISO "YYYY-MM-DD"
+    function nextBirthdayDate(iso) {
+      if (!iso) return null;
       const today = new Date();
       const [y, m, d] = iso.split('-').map(Number);
       const thisYear = new Date(today.getFullYear(), (m-1), d);
       const todayTrunc = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-      const next = (thisYear >= todayTrunc)
-        ? thisYear
-        : new Date(today.getFullYear()+1, (m-1), d);
-      return formatDDMonYYYY(next);
+      return (thisYear >= todayTrunc) ? thisYear : new Date(today.getFullYear()+1, (m-1), d);
+    }
+
+    // Display string like "123 days left"
+    function daysUntilNextBirthday(iso) {
+      const next = nextBirthdayDate(iso);
+      if (!next) return "—";
+      const today = new Date();
+      const todayTrunc = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const msPerDay = 1000 * 60 * 60 * 24;
+      const diff = Math.round((next - todayTrunc) / msPerDay);
+      if (diff === 0) return "Today 🎉";
+      if (diff === 1) return "1 day left";
+      return `${diff} days left`;
+    }
+
+    // Given ISO "YYYY-MM-DD", return formatted next occurrence in DD Mon YYYY
+    function nextBirthdayDisplay(iso) {
+      const next = nextBirthdayDate(iso);
+      return next ? formatDDMonYYYY(next) : "—";
     }
 
     async function loadBirthdays() {
@@ -227,13 +245,13 @@
       });
 
       data.records.forEach(record => {
-        const { name, lastName, date, birthdayDisplay, nextReminderDisplay } = record.fields;
+        const { name, lastName, date, birthdayDisplay } = record.fields;
         const id = record.id;
 
-        // All displays now use DD Mon YYYY
-        const actualBirthdayDisplay = birthdayDisplay || "—";     
-        const reminderDisplay = nextReminderDisplay || "—";       
-        const nextBday = nextBirthdayDisplay(date);               
+        // Displays
+        const actualBirthdayDisplay = birthdayDisplay || "—"; // original birthday (DD Mon YYYY precomputed if you store it)
+        const nextBday = nextBirthdayDisplay(date);            // DD Mon YYYY
+        const daysLeftLbl = daysUntilNextBirthday(date);       // "XX days left" / "Today 🎉" / "—"
 
         const card = document.createElement("div");
         card.className = "reminder-item";
@@ -245,16 +263,20 @@
               <!-- LEFT: next birthday (purple) + name underneath -->
               <div class="left-col">
                 <div class="birthday-date">${nextBday}</div>
-                <div class="reminder-title">
-                  ${name || ""} <span class="last-name">${lastName || ""}</span>
+                <div class="reminder-title" style="font-weight: 400;">
+                  <strong>${name || ""}</strong> <span class="last-name">${lastName || ""}</span>
                 </div>
               </div>
 
-              <!-- RIGHT: Actual birthday (cake, purple non-bold) + next reminder (grey) + kebab -->
+              <!-- RIGHT: Actual birthday + days left + kebab -->
               <div class="d-flex align-items-start gap-2">
                 <div class="meta-stack me-2 text-end">
-                  <div class="actual-bday"><i class="fa-solid fa-cake-candles me-1"></i>${actualBirthdayDisplay}</div>
-                  <div class="text-muted"><i class="fa-regular fa-bell me-1"></i>${reminderDisplay}</div>
+                  <div class="actual-bday">
+                    <i class="fa-solid fa-cake-candles me-1"></i>${actualBirthdayDisplay}
+                  </div>
+                  <div class="text-muted">
+                    <i class="fa-regular fa-bell me-1"></i>${daysLeftLbl} until next birthday
+                  </div>
                 </div>
                 <div class="dropdown">
                   <button class="kebab-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Actions">

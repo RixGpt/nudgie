@@ -11,8 +11,8 @@
 </head>
 <body class="home has-illustration">
 
-  <!-- Top Header / Menu -->
-  <div class="header-bar mb-4">
+  <!-- Top bar (keeps your current brand look) -->
+  <header class="header-bar">
     <div class="container-narrow px-3 px-sm-4 d-flex justify-content-between align-items-center">
       <a href="index.html" class="brand d-flex align-items-center text-decoration-none">
         <i class="fas fa-dove me-2"></i>
@@ -21,77 +21,118 @@
           <p class="subtitle mb-0">A smart nudge when you need it</p>
         </div>
       </a>
-
-      <div class="ms-3">
-        <a href="login.html" class="btn btn-outline-primary btn-sm me-2">Log in</a>
+      <nav class="d-none d-sm-flex align-items-center gap-3">
+        <a class="link-dark text-decoration-none" href="about.html">How it works</a>
+        <a class="link-dark text-decoration-none" href="privacy.html">Privacy</a>
+        <a class="link-dark text-decoration-none" href="contact.html">Contact</a>
+        <a href="login.html" class="btn btn-outline-primary btn-sm">Log in</a>
         <a href="signup.html" class="btn btn-accent btn-sm">Get started</a>
-      </div>
+      </nav>
     </div>
-  </div>
+  </header>
 
-  <!-- Main content -->
   <main>
-    <!-- Megatron (Hero) -->
-    <section class="py-5 position-relative">
+    <!-- Product-style hero -->
+    <section class="product-hero py-5">
       <div class="container-narrow px-3 px-sm-4">
-        <div class="megatron">
-          <h1 class="fw-bold mb-2">Reminders that help you take action</h1>
-          <h2 class="lead mb-3">
-            Smart, super helpful reminders for birthdays, special events & more. No more last-minute planning.
-            <br/><br/>
-            Replace your air filter. Buy that birthday gift. Reach out. All for free — no tracking, no tricks.
-          </h2>
-          <div class="d-flex flex-wrap gap-2">
-            <a href="signup.html" class="btn btn-accent btn-lg">Get started — it’s free</a>
-            <a href="about.html" class="btn btn-outline-secondary btn-lg">How it works</a>
+        <div class="row align-items-center g-4 g-md-5">
+          <div class="col-lg-6">
+            <h1 class="display-5 fw-bold mb-3">Reminders that actually help you take action</h1>
+            <p class="lead mb-4">
+              Smart, super helpful reminders for birthdays, special events &amp; home tasks.
+              Replace your air filter. Buy that gift. Reach out—on time. Free, no tracking, no tricks.
+            </p>
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <a href="signup.html" class="btn btn-accent btn-lg">Get started — it’s free</a>
+              <a href="about.html" class="btn btn-outline-secondary btn-lg">How it works</a>
+            </div>
+            <div class="d-flex gap-2 mt-3" aria-hidden="true">
+              <div class="icon-box" aria-label="Birthdays"><i class="fas fa-gift"></i></div>
+              <div class="icon-box" aria-label="Calendar"><i class="fas fa-calendar-check"></i></div>
+              <div class="icon-box" aria-label="Home"><i class="fas fa-house"></i></div>
+              <div class="icon-box" aria-label="Friends"><i class="fas fa-user-group"></i></div>
+            </div>
           </div>
-
-          <div class="d-flex gap-3 mt-4">
-            <div class="icon-box" aria-label="Birthdays"><i class="fas fa-gift"></i></div>
-            <div class="icon-box" aria-label="Calendar"><i class="fas fa-calendar-check"></i></div>
-            <div class="icon-box" aria-label="Home"><i class="fas fa-house"></i></div>
-            <div class="icon-box" aria-label="Friends"><i class="fas fa-user-group"></i></div>
+          <div class="col-lg-6">
+            <!-- Product mock / screenshot placeholder -->
+            <div class="screenshot-card">
+              <div class="screenshot-placeholder">App preview</div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Three Columns -->
+    <!-- Marketing columns (3-up) -->
+    <section class="marketing py-5">
+      <div class="container-narrow px-3 px-sm-4">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          <div class="col">
+            <h3 class="h5 mb-2">Simple by design</h3>
+            <p class="mb-0">No dark patterns. Add a reminder and get a helpful nudge right when it matters.</p>
+          </div>
+          <div class="col">
+            <h3 class="h5 mb-2">Actionable nudges</h3>
+            <p class="mb-0">Each reminder comes with a tiny next step—like a link to filters or a gift idea.</p>
+          </div>
+          <div class="col">
+            <h3 class="h5 mb-2">Privacy-friendly</h3>
+            <p class="mb-0">We keep it lightweight. Your data stays yours. The default: do less, respect more.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="featurette-divider">
+
+    <!-- Featurettes (alternating) -->
+    <section class="featurettes pb-5">
+      <div class="container-narrow px-3 px-sm-4">
+
+        <div class="row align-items-center g-4 g-md-5 mb-5">
+          <div class="col-md-7">
+            <h2 class="featurette-heading mb-2">Birthdays, remembered <span class="text-muted">without the scramble</span></h2>
+            <p class="lead mb-0">Nudgie emails you 21 days before, 7 days before, and on the day. Plenty of time to plan something thoughtful.</p>
+          </div>
+          <div class="col-md-5">
+            <div class="screenshot-tile">Birthday list</div>
+          </div>
+        </div>
+
+        <div class="row align-items-center g-4 g-md-5 mb-5">
+          <div class="col-md-7 order-md-2">
+            <h2 class="featurette-heading mb-2">Home tasks that <span class="text-muted">actually get done</span></h2>
+            <p class="lead mb-0">Set it once, then forget it. We’ll nudge you when it’s time—filters, alarms, batteries &amp; more.</p>
+          </div>
+          <div class="col-md-5 order-md-1">
+            <div class="screenshot-tile">Home reminders</div>
+          </div>
+        </div>
+
+        <div class="row align-items-center g-4 g-md-5">
+          <div class="col-md-7">
+            <h2 class="featurette-heading mb-2">Built to be helpful <span class="text-muted">not sticky</span></h2>
+            <p class="lead mb-0">No feeds, no doom scroll. Just a nudge and a clear next step so you can get back to life.</p>
+          </div>
+          <div class="col-md-5">
+            <div class="screenshot-tile">Clean &amp; simple</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Final CTA -->
     <section class="py-5">
-      <div class="container-narrow px-3 px-sm-4">
-        <div class="row row-cols-1 row-cols-md-3 gy-4">
-          <div class="col">
-            <h3 class="h5 mb-2">Simple by Design</h3>
-            <p class="mb-0">No accounts to manage for basic use, no dark patterns. Just add a reminder and get a helpful nudge when it matters.</p>
-          </div>
-          <div class="col">
-            <h3 class="h5 mb-2">Actionable Nudges</h3>
-            <p class="mb-0">We pair each reminder with a tiny next step—like a link to filters or a gift idea—so following through is easy.</p>
-          </div>
-          <div class="col">
-            <h3 class="h5 mb-2">Privacy-Friendly</h3>
-            <p class="mb-0">We keep it lightweight. Your data stays yours. Our default is: do less, respect more.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Optional Screenshots -->
-    <section class="pb-5">
-      <div class="container-narrow px-3 px-sm-4">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <div class="screenshot-placeholder">Screenshot 1</div>
-          </div>
-          <div class="col-md-6">
-            <div class="screenshot-placeholder">Screenshot 2</div>
-          </div>
-        </div>
+      <div class="container-narrow px-3 px-sm-4 text-center">
+        <h2 class="mb-3">Ready for better reminders?</h2>
+        <p class="lead mb-4">Join for free in under a minute. No tracking, no tricks.</p>
+        <a href="signup.html" class="btn btn-accent btn-lg">Get started</a>
       </div>
     </section>
   </main>
 
-  <!-- Footer (shared) -->
+  <!-- Shared footer include -->
   <div id="footer-placeholder"></div>
   <script>
     fetch("footer.html")

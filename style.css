@@ -134,9 +134,9 @@ i.fa-dove { font-size: 2rem; color: #111; margin-right: 0.75rem; }
 /* ===================== Page Illustration (simple gradient overlay) ===================== */
 /* Add class="home has-illustration" to <body> on the homepage */
 .home.has-illustration {
-  /*background-image:
+  background-image:
     linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
-    url("background-main2.png"); */
+    url("robot-background.jpg"); 
   background-size: cover;       /* fill page */
   background-repeat: no-repeat;
   background-position: center;

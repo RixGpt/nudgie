@@ -29,3 +29,14 @@ main { min-height: 50vh; }
 .container {
   max-width: 800px !important;
 }
+
+.hero-img {
+  max-width: 70%;   /* shrink image to 70% of column */
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .hero-img {
+    max-width: 60%;  /* even smaller on mobile if you want */
+  }
+}

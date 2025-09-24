@@ -1,14 +1,16 @@
-/* Tiny, Bootstrap-first overrides */
-:root{
-  --brand:#731358;           /* Nudgie purple */
+/* Minimal, Bootstrap-first overrides */
+:root {
+  --brand:#731358; /* Nudgie purple */
 }
 
-body{ font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; }
+body {
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
 
-.text-brand{ color:var(--brand); }
-.text-brand:hover{ color:var(--brand); opacity:.9; }
+.text-brand { color:var(--brand); }
+.text-brand:hover { color:var(--brand); opacity:.9; }
 
-.btn-primary{
+.btn-primary {
   --bs-btn-bg:var(--brand);
   --bs-btn-border-color:var(--brand);
   --bs-btn-hover-bg:#5d0f46;
@@ -17,7 +19,8 @@ body{ font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-
   --bs-btn-active-border-color:#4c0c3a;
 }
 
-.navbar .nav-link{ color:#212529; }
-.navbar .nav-link:hover{ color:var(--brand); }
+.navbar .nav-link { color:#212529; }
+.navbar .nav-link:hover { color:var(--brand); }
 
-main{ min-height: 50vh; }
+main { min-height: 50vh; }
+.hero-img { max-width: 100%; height: auto; }

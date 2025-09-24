@@ -24,3 +24,8 @@ body {
 
 main { min-height: 50vh; }
 .hero-img { max-width: 100%; height: auto; }
+
+/* Container width override */
+.container {
+  max-width: 800px !important;
+}

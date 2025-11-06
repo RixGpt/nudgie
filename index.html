@@ -98,6 +98,19 @@
   <script>
     document.getElementById('yr').textContent = new Date().getFullYear();
   </script>
+  <script>
+    (function(){
+      const s = JSON.parse(localStorage.getItem('nudgie_session') || 'null');
+      if (s) {
+        // Find the main CTA button ("Get started — it’s free")
+        const cta = document.querySelector('a.btn.btn-primary');
+        if (cta) {
+          cta.href = 'birthdays.html';
+          cta.textContent = 'Open Birthdays';
+        }
+      }
+    })();
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

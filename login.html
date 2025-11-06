@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nudgie — Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background:#f8f9fa; }
+    .nudgie-container { max-width:720px; }
+    .brand { font-weight:700; letter-spacing:0.2px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-light bg-white border-bottom">
+    <div class="container nudgie-container py-2">
+      <a class="navbar-brand brand" href="index.html">Nudgie</a>
+      <div class="d-flex gap-3">
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container nudgie-container py-4">
+    <div class="row g-4">
+      <div class="col-12">
+        <h1 class="h4 mb-1">Login</h1>
+        <p class="text-muted mb-3">Use your email and 4–6 digit PIN.</p>
+      </div>
+
+      <!-- Login Card -->
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <form id="loginForm" class="row g-2">
+              <div class="col-md-7">
+                <label for="email" class="form-label small text-muted mb-1">Email</label>
+                <input id="email" type="email" class="form-control" placeholder="you@example.com" required>
+              </div>
+              <div class="col-md-5">
+                <label for="pin" class="form-label small text-muted mb-1">PIN</label>
+                <input id="pin" type="password" inputmode="numeric" pattern="[0-9]{4,6}" minlength="4" maxlength="6" class="form-control" placeholder="••••" required>
+              </div>
+              <div class="col-12 d-flex align-items-center gap-2 mt-2">
+                <button class="btn btn-primary" type="submit">Log in</button>
+                <button id="forgotBtn" class="btn btn-link" type="button">Forgot PIN?</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reset Card -->
+      <div class="col-12 d-none" id="resetCard">
+        <div class="card border-success-subtle shadow-sm">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h2 class="h6 m-0">Reset your PIN</h2>
+              <button class="btn btn-sm btn-outline-secondary" id="closeReset">Close</button>
+            </div>
+            <p class="small text-muted mb-3">We emailed you a 6‑digit code. It expires in 15 minutes.</p>
+            <form id="resetForm" class="row g-2">
+              <div class="col-md-5">
+                <label class="form-label small text-muted mb-1">Email</label>
+                <input id="resetEmail" type="email" class="form-control" placeholder="you@example.com" required>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label small text-muted mb-1">Code</label>
+                <input id="resetCode" type="text" class="form-control" placeholder="123456" maxlength="6" required>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label small text-muted mb-1">New PIN</label>
+                <input id="newPin" type="password" inputmode="numeric" pattern="[0-9]{4,6}" minlength="4" maxlength="6" class="form-control" placeholder="••••" required>
+              </div>
+              <div class="col-md-1 d-flex align-items-end">
+                <button class="btn btn-success w-100" type="submit">Go</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 text-center text-muted small">
+        <span>By continuing you agree to be gently nudged. 💜</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toasts -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+    <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto" id="toastTitle">Nudgie</strong>
+        <small class="text-muted">now</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" id="toastBody">Hello</div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // ===== CONFIG (replace placeholders) =====
+    const AIRTABLE_TOKEN = 'pat_xxx';
+    const AIRTABLE_BASE = 'appXXXXXXXXXXXXXX';
+    const USERS_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE}/users`;
+    const MAILER_URL = 'https://script.google.com/macros/s/AKfycb-your-webapp-id/exec'; // Apps Script endpoint
+
+    // ===== Utilities =====
+    function showToast(title, body){
+      document.getElementById('toastTitle').textContent = title || 'Nudgie';
+      document.getElementById('toastBody').textContent = body || '';
+      const t = new bootstrap.Toast(document.getElementById('toast'));
+      t.show();
+    }
+    async function sha256(str){
+      const buf = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buf);
+      return [...new Uint8Array(hashBuffer)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    }
+    async function fetchUser(email){
+      const url = USERS_URL + `?filterByFormula=${encodeURIComponent(`LOWER({email})='${email.toLowerCase()}'`)}&maxRecords=1`;
+      const res = await fetch(url, { headers:{ Authorization: `Bearer ${AIRTABLE_TOKEN}` }});
+      const data = await res.json();
+      return (data.records||[])[0] || null;
+    }
+    async function patchUser(recId, fields){
+      await fetch(`${USERS_URL}/${recId}`, {
+        method:'PATCH',
+        headers:{ Authorization:`Bearer ${AIRTABLE_TOKEN}`, 'Content-Type':'application/json' },
+        body: JSON.stringify({ fields })
+      });
+    }
+
+    // ===== Session =====
+    function setSession(email){
+      localStorage.setItem('nudgie_session', JSON.stringify({ email, issued_at: Date.now() }));
+    }
+
+    // ===== Login =====
+    document.getElementById('loginForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const pin = document.getElementById('pin').value.trim();
+      try {
+        const rec = await fetchUser(email);
+        if(!rec){ showToast('Login failed', 'No account found.'); return; }
+        const hash = await sha256(pin);
+        if((rec.fields.pin_hash||'') !== hash){ showToast('Login failed', 'Wrong PIN.'); return; }
+        setSession(email);
+        showToast('Welcome', 'You are now logged in.');
+        setTimeout(()=>{ window.location.href = 'index.html'; }, 600);
+      } catch(err){
+        console.error(err);
+        showToast('Error', 'Please try again.');
+      }
+    });
+
+    // ===== Forgot PIN =====
+    const resetCard = document.getElementById('resetCard');
+    document.getElementById('forgotBtn').addEventListener('click', async ()=>{
+      const email = document.getElementById('email').value.trim();
+      if(!email){ showToast('Forgot PIN', 'Enter your email first.'); return; }
+      try{
+        await fetch(MAILER_URL, { method:'POST', body: JSON.stringify({ email, returnUrl: window.location.origin + '/login.html#reset' })});
+        document.getElementById('resetEmail').value = email;
+        resetCard.classList.remove('d-none');
+        showToast('Check your email', 'We sent a 6‑digit code.');
+      } catch(err){
+        console.error(err); showToast('Error', 'Could not send reset email.');
+      }
+    });
+    document.getElementById('closeReset').addEventListener('click', ()=> resetCard.classList.add('d-none'));
+
+    // ===== Reset submit =====
+    document.getElementById('resetForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const email = document.getElementById('resetEmail').value.trim().toLowerCase();
+      const code  = document.getElementById('resetCode').value.trim();
+      const newPin= document.getElementById('newPin').value.trim();
+      try{
+        const rec = await fetchUser(email);
+        if(!rec){ showToast('Reset failed', 'Account not found.'); return; }
+        const { reset_code, reset_expires } = rec.fields;
+        if(!reset_code || reset_code !== code){ showToast('Reset failed', 'Invalid code.'); return; }
+        if(Date.now() > Date.parse(reset_expires)){ showToast('Reset failed', 'Code expired.'); return; }
+        const pin_hash = await sha256(newPin);
+        await patchUser(rec.id, { pin_hash, reset_code: '', reset_expires: '' });
+        setSession(email);
+        showToast('PIN updated', 'You are now logged in.');
+        setTimeout(()=>{ window.location.href = 'index.html'; }, 600);
+      } catch(err){
+        console.error(err); showToast('Error', 'Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>

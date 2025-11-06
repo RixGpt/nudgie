@@ -105,117 +105,147 @@
     const USERS_URL      = `https://api.airtable.com/v0/${AIRTABLE_BASE}/users`;
     const MAILER_URL     = 'https://script.google.com/macros/s/AKfycb-your-webapp-id/exec'; // Apps Script endpoint
 
-    // ===== Utils =====
-    function showToast(title, body){
-      document.getElementById('toastTitle').textContent = title || 'Nudgie';
-      document.getElementById('toastBody').textContent = body || '';
-      const t = new bootstrap.Toast(document.getElementById('toast'));
-      t.show();
-    }
-    async function sha256(str){
-      const buf = new TextEncoder().encode(str);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', buf);
-      return [...new Uint8Array(hashBuffer)].map(b=>b.toString(16).padStart(2,'0')).join('');
-    }
-    function setSession(email){
-      localStorage.setItem('nudgie_session', JSON.stringify({ email, issued_at: Date.now() }));
-    }
+  // ===== Utils =====
+  function showToast(title, body){
+    document.getElementById('toastTitle').textContent = title || 'Nudgie';
+    document.getElementById('toastBody').textContent = body || '';
+    const t = new bootstrap.Toast(document.getElementById('toast'));
+    t.show();
+  }
 
-    // ===== Airtable helpers =====
-    async function fetchUser(email){
-      const url = USERS_URL + `?filterByFormula=${encodeURIComponent(\`LOWER({email})='${email.toLowerCase()}'\`)}&maxRecords=1`;
-      const res = await fetch(url, { headers:{ Authorization: \`Bearer ${AIRTABLE_TOKEN}\` }});
-      const data = await res.json();
-      return (data.records||[])[0] || null;
+  async function sha256(str){
+    const buf = new TextEncoder().encode(str);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', buf);
+    return [...new Uint8Array(hashBuffer)]
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  }
+
+  function setSession(email){
+    localStorage.setItem('nudgie_session', JSON.stringify({ email, issued_at: Date.now() }));
+  }
+
+  // ===== Airtable helpers =====
+  async function fetchUser(email){
+    const filter = "LOWER({email})='" + email.toLowerCase() + "'";
+    const url = USERS_URL + "?filterByFormula=" + encodeURIComponent(filter) + "&maxRecords=1";
+    const res = await fetch(url, { headers: { Authorization: "Bearer " + AIRTABLE_TOKEN } });
+    const data = await res.json();
+    return (data.records || [])[0] || null;
+  }
+
+  async function patchUser(recId, fields){
+    await fetch(USERS_URL + "/" + recId, {
+      method: 'PATCH',
+      headers: { Authorization: "Bearer " + AIRTABLE_TOKEN, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields })
+    });
+  }
+
+  async function createUser(email, pin){
+    const pin_hash = await sha256(pin);
+    const res = await fetch(USERS_URL, {
+      method: 'POST',
+      headers: { Authorization: "Bearer " + AIRTABLE_TOKEN, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: { email, pin_hash } })
+    });
+    const data = await res.json();
+    if(!data.id) throw new Error('Signup failed');
+    return data;
+  }
+
+  // ===== Login / Signup =====
+  document.getElementById('loginForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim().toLowerCase();
+    const pin   = document.getElementById('pin').value.trim();
+
+    try {
+      let rec = await fetchUser(email);
+      const hash = await sha256(pin);
+
+      if(!rec) { // SIGN UP
+        await createUser(email, pin);
+        rec = await fetchUser(email);
+      }
+
+      if((rec.fields.pin_hash || '') !== hash){
+        showToast('Login failed', 'Wrong PIN.');
+        return;
+      }
+
+      setSession(email);
+      showToast('Welcome', 'You are now logged in.');
+      setTimeout(() => { window.location.href = 'index.html'; }, 600);
+
+    } catch(err){
+      console.error(err);
+      showToast('Error', 'Please try again.');
     }
-    async function patchUser(recId, fields){
-      await fetch(\`\${USERS_URL}/\${recId}\`, {
-        method:'PATCH',
-        headers:{ Authorization:\`Bearer ${AIRTABLE_TOKEN}\`, 'Content-Type':'application/json' },
-        body: JSON.stringify({ fields })
+  });
+
+  // ===== Forgot PIN (send code) =====
+  const resetCard = document.getElementById('resetCard');
+
+  document.getElementById('forgotBtn').addEventListener('click', async ()=>{
+    const email = document.getElementById('email').value.trim();
+    if(!email){ showToast('Forgot PIN', 'Enter your email first.'); return; }
+
+    try {
+      const res = await fetch(MAILER_URL, {
+        method: 'POST',
+        body: JSON.stringify({ email, returnUrl: window.location.origin + '/login.html#reset' })
       });
-    }
-    async function createUser(email, pin){
-      const pin_hash = await sha256(pin);
-      const res = await fetch(USERS_URL, {
-        method:'POST',
-        headers:{ Authorization:\`Bearer ${AIRTABLE_TOKEN}\`, 'Content-Type':'application/json' },
-        body: JSON.stringify({ fields:{ email, pin_hash }})
-      });
       const data = await res.json();
-      if(!data.id) throw new Error('Signup failed');
-      return data;
+      if(!data.ok){ showToast('Error', data.error || 'Could not send reset email.'); return; }
+
+      document.getElementById('resetEmail').value = email;
+      resetCard.classList.remove('d-none');
+      showToast('Check your email', 'We sent a 6-digit code.');
+
+    } catch(err){
+      console.error(err);
+      showToast('Error', 'Could not send reset email.');
     }
+  });
 
-    // ===== Login / Signup =====
-    document.getElementById('loginForm').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim().toLowerCase();
-      const pin   = document.getElementById('pin').value.trim();
-      try {
-        let rec = await fetchUser(email);
-        const hash = await sha256(pin);
+  document.getElementById('closeReset').addEventListener('click', () => {
+    resetCard.classList.add('d-none');
+  });
 
-        if(!rec) { // SIGN UP
-          await createUser(email, pin);
-          rec = await fetchUser(email);
-        }
+  // ===== Reset submit (verify code, set new PIN) =====
+  document.getElementById('resetForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const email = document.getElementById('resetEmail').value.trim().toLowerCase();
+    const code  = document.getElementById('resetCode').value.trim();
+    const newPin= document.getElementById('newPin').value.trim();
 
-        if((rec.fields.pin_hash||'') !== hash){
-          showToast('Login failed', 'Wrong PIN.');
-          return;
-        }
-        setSession(email);
-        showToast('Welcome', 'You are now logged in.');
-        setTimeout(()=>{ window.location.href = 'index.html'; }, 600);
-      } catch(err){
-        console.error(err);
-        showToast('Error', 'Please try again.');
+    try {
+      const rec = await fetchUser(email);
+      if(!rec){ showToast('Reset failed', 'Account not found.'); return; }
+
+      const fields = rec.fields;
+      if(!fields.reset_code || fields.reset_code !== code){
+        showToast('Reset failed', 'Invalid code.');
+        return;
       }
-    });
-
-    // ===== Forgot PIN (send code) =====
-    const resetCard = document.getElementById('resetCard');
-    document.getElementById('forgotBtn').addEventListener('click', async ()=>{
-      const email = document.getElementById('email').value.trim();
-      if(!email){ showToast('Forgot PIN', 'Enter your email first.'); return; }
-      try{
-        const res = await fetch(MAILER_URL, {
-          method:'POST',
-          body: JSON.stringify({ email, returnUrl: window.location.origin + '/login.html#reset' })
-        });
-        const data = await res.json();
-        if(!data.ok){ showToast('Error', data.error || 'Could not send reset email.'); return; }
-        document.getElementById('resetEmail').value = email;
-        resetCard.classList.remove('d-none');
-        showToast('Check your email', 'We sent a 6-digit code.');
-      } catch(err){
-        console.error(err); showToast('Error', 'Could not send reset email.');
+      if(Date.now() > Date.parse(fields.reset_expires)){
+        showToast('Reset failed', 'Code expired.');
+        return;
       }
-    });
-    document.getElementById('closeReset').addEventListener('click', ()=> resetCard.classList.add('d-none'));
 
-    // ===== Reset submit (verify code, set new PIN) =====
-    document.getElementById('resetForm').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      const email = document.getElementById('resetEmail').value.trim().toLowerCase();
-      const code  = document.getElementById('resetCode').value.trim();
-      const newPin= document.getElementById('newPin').value.trim();
-      try{
-        const rec = await fetchUser(email);
-        if(!rec){ showToast('Reset failed', 'Account not found.'); return; }
-        const { reset_code, reset_expires } = rec.fields;
-        if(!reset_code || reset_code !== code){ showToast('Reset failed', 'Invalid code.'); return; }
-        if(Date.now() > Date.parse(reset_expires)){ showToast('Reset failed', 'Code expired.'); return; }
-        const pin_hash = await sha256(newPin);
-        await patchUser(rec.id, { pin_hash, reset_code: '', reset_expires: '' });
-        setSession(email);
-        showToast('PIN updated', 'You are now logged in.');
-        setTimeout(()=>{ window.location.href = 'index.html'; }, 600);
-      } catch(err){
-        console.error(err); showToast('Error', 'Please try again.');
-      }
-    });
-  </script>
+      const pin_hash = await sha256(newPin);
+      await patchUser(rec.id, { pin_hash, reset_code: '', reset_expires: '' });
+      setSession(email);
+      showToast('PIN updated', 'You are now logged in.');
+      setTimeout(() => { window.location.href = 'index.html'; }, 600);
+
+    } catch(err){
+      console.error(err);
+      showToast('Error', 'Please try again.');
+    }
+  });
+</script>
+
 </body>
 </html>

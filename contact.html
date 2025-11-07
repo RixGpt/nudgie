@@ -27,10 +27,10 @@
         <div class="card shadow-sm">
           <div class="card-body">
             <h1 class="h4 mb-2">Contact</h1>
-            <p class="text-muted">Questions, ideas, or a friendly hello? Send a note below.</p>
+            <p class="text-muted">Questions, ideas, or feedback? Send us a quick note below.</p>
 
             <form id="contactForm" class="row g-3" novalidate>
-              <!-- Honeypot (hidden) -->
+              <!-- Honeypot -->
               <input type="text" id="hp" name="hp" autocomplete="off" tabindex="-1" style="display:none">
 
               <div class="col-md-6">
@@ -47,12 +47,11 @@
               </div>
               <div class="col-12 d-flex align-items-center gap-2">
                 <button class="btn btn-primary" type="submit" id="sendBtn">Send message</button>
-                <button class="btn btn-link" type="button" id="mailtoFallback">Or email us</button>
                 <span class="small text-muted" id="status"></span>
               </div>
               <div class="col-12">
                 <p class="small text-muted mb-0">
-                  Privacy: We use your email only to reply. No marketing lists, no sharing.
+                  Privacy: We use your email only to reply. No spam, no sharing.
                 </p>
               </div>
             </form>
@@ -71,7 +70,7 @@
         <small class="text-muted">now</small>
         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
       </div>
-      <div class="toast-body" id="toastBody">Hello</div>
+      <div class="toast-body" id="toastBody"></div>
     </div>
   </div>
 
@@ -81,10 +80,10 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // ====== CONFIG: your deployed Apps Script endpoint ======
+    // Your deployed Google Apps Script endpoint
     const CONTACT_MAILER_URL = 'https://script.google.com/macros/s/AKfycbxHplf0HFkaZuvtTdxQ7SksjuaGvHf-83G3ecd0tI2UEyKMJ2cPEYRS4GFYw-4g_VNwFA/exec';
 
-    // Year in footer
+    // Footer year
     document.getElementById('y').textContent = new Date().getFullYear();
 
     // Toast helper
@@ -94,23 +93,7 @@
       new bootstrap.Toast(document.getElementById('toast')).show();
     }
 
-    // Obfuscated mailto (fallback; not printed in HTML)
-    function getOwnerEmail(){
-      // Replace these arrays with your real address, split into chars
-      const u = ['c','j','d','o','w','s','e','t','t']; // username
-      const d = ['g','m','a','i','l','.','c','o','m']; // domain
-      return u.join('') + '@' + d.join('');
-    }
-
-    // Mailto fallback
-    document.getElementById('mailtoFallback').addEventListener('click', ()=>{
-      const addr = getOwnerEmail();
-      const sub = encodeURIComponent('Nudgie contact');
-      const body = encodeURIComponent('');
-      window.location.href = `mailto:${addr}?subject=${sub}&body=${body}`;
-    });
-
-    // Submit handler
+    // Submit handler — send via Google Apps Script
     document.getElementById('contactForm').addEventListener('submit', async (e)=>{
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
@@ -121,31 +104,31 @@
       const btn = document.getElementById('sendBtn');
 
       if(!name || !email || !message){
-        showToast('Missing info', 'Please fill all fields.');
+        showToast('Missing info', 'Please fill in all fields.');
         return;
       }
 
       btn.disabled = true; statusEl.textContent = 'Sending…';
-      try{
+
+      try {
         const res = await fetch(CONTACT_MAILER_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email, message, hp })
         });
-        const data = await res.json().catch(()=>({}));
-        if (res.ok && (data.ok || data.status === 'ok')) {
-          showToast('Thanks!', 'Your message has been sent.');
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && data.ok) {
+          showToast('Thanks!', 'Your message has been sent successfully.');
           e.target.reset();
-          statusEl.textContent = 'Sent.';
+          statusEl.textContent = 'Sent!';
         } else {
-          showToast('Hmm', 'Could not send via form. Opening your email app…');
-          document.getElementById('mailtoFallback').click();
-          statusEl.textContent = 'Opened email app.';
+          showToast('Error', 'Something went wrong sending your message.');
+          statusEl.textContent = 'Error.';
         }
-      } catch(err){
-        showToast('Error', 'Network issue. Opening your email app…');
-        document.getElementById('mailtoFallback').click();
-        statusEl.textContent = 'Opened email app.';
+      } catch (err) {
+        showToast('Network issue', 'Unable to send message right now.');
+        statusEl.textContent = 'Network error.';
       } finally {
         btn.disabled = false;
       }

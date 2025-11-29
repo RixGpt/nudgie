@@ -72,7 +72,7 @@
               <thead class="table-light">
                 <tr>
                   <th>Name</th>
-                  <th style="width:140px;">Date</th>
+                  <th style="width:140px;">Birthday</th>
                   <th style="width:160px;">Next birthday</th>
                   <th style="width:80px;">Age</th>
                   <th style="width:130px;" class="text-end">Actions</th>
@@ -210,8 +210,8 @@
           <td>${fmtDateYMD(nbY)}</td>
           <td>${age}</td>
           <td class="text-end">
-            <button class="btn btn-sm btn-outline-secondary me-1" data-action="edit">Edit</button>
-            <button class="btn btn-sm btn-outline-danger" data-action="del">Delete</button>
+            <button class="btn btn-sm btn-outline-secondary me-1" data-action="edit">✎</button>
+            <button class="btn btn-sm btn-outline-danger" data-action="del">-</button>
           </td>`;
 
         tr.querySelector('[data-action="edit"]').addEventListener('click', ()=> openEdit(rec));

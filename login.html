@@ -206,52 +206,31 @@
     // ===== Forgot PIN (send code) =====
     const resetCard = document.getElementById('resetCard');
 
-    document.getElementById('forgotBtn').addEventListener('click', async ()=>{
+    document.getElementById('forgotBtn').addEventListener('click', async () => {
       const email = document.getElementById('email').value.trim();
-      if(!email){
+      if (!email) {
         showToast('Forgot PIN', 'Enter your email first.');
         return;
       }
 
       try {
-        const res = await fetch(MAILER_URL, {
+        await fetch(MAILER_URL, {
           method: 'POST',
+          mode: 'no-cors',  // opaque request, avoids CORS/preflight issues
           body: JSON.stringify({
             email,
             returnUrl: window.location.origin + '/login.html#reset'
           })
         });
 
-        if (!res.ok) {
-          const text = await res.text();
-          console.error('Mailer HTTP error', res.status, text);
-          showToast('Error', 'Could not send reset email (server error).');
-          return;
-        }
-
-        let data;
-        try {
-          data = await res.json();
-        } catch (e) {
-          const text = await res.text();
-          console.error('Mailer JSON parse error. Response was:', text);
-          showToast('Error', 'Could not send reset email (bad response).');
-          return;
-        }
-
-        if (!data.ok) {
-          console.error('Mailer app error:', data.error);
-          showToast('Error', data.error || 'Could not send reset email.');
-          return;
-        }
-
+        // If we reach here, the request was sent; we assume success
         document.getElementById('resetEmail').value = email;
         resetCard.classList.remove('d-none');
         showToast('Check your email', 'We sent a 6-digit code.');
 
       } catch(err){
         console.error('Forgot PIN fetch error', err);
-        showToast('Error', 'Could not send reset email (network error).');
+        showToast('Error', 'Could not send reset email.');
       }
     });
 

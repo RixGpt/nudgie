@@ -216,7 +216,6 @@
       try {
         const res = await fetch(MAILER_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             email,
             returnUrl: window.location.origin + '/login.html#reset'

@@ -81,6 +81,7 @@
       <div>
         <h1 class="h4 mb-1">Birthdays</h1>
         <p class="text-muted mb-0">Add, edit, and track upcoming birthdays.</p>
+        <p class="text-muted mb-0">Have a lot of birthdays to enter? <a href="contact.html">Send us the list in any format</a> and we'll do it for you.</p>
       </div>
     </div>
 
@@ -154,8 +155,8 @@
 
   <script>
     /***** CONFIG — replace with yours *****/
-    const AIRTABLE_TOKEN = 'YOUR_TOKEN';
-    const AIRTABLE_BASE  = 'YOUR_BASE_ID';
+    const AIRTABLE_TOKEN = 'patvZfxpDZOYbjS27.dc2df00ca0e49de14030866cf08b05111606b9c79ad1f3d7a436a7bd697617ab';
+    const AIRTABLE_BASE  = 'appGMW34rQEzsyHbj';
     const TABLE_NAME    = 'birthdays';
     const API_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE}/${TABLE_NAME}`;
     const headers = { Authorization:`Bearer ${AIRTABLE_TOKEN}`, 'Content-Type':'application/json' };

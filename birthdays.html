@@ -216,10 +216,10 @@
   <script>
     document.getElementById('yr').textContent = new Date().getFullYear();
 
-    const AIRTABLE_TOKEN = 'YOUR_TOKEN';
-    const AIRTABLE_BASE  = 'YOUR_BASE_ID';
-    const BDAY_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE}/birthdays`;
-    const headers = { Authorization:`Bearer ${AIRTABLE_TOKEN}`, 'Content-Type':'application/json' };
+    const AIRTABLE_TOKEN = 'pat7FJIZ2jVBPvyFJ.f3f48877944f4a6e2ac0d591468113c051dce38e080d11a4821c37151c5d6a9b'; // replace
+    const AIRTABLE_BASE  = 'appDw2ve8ICnaUL6g'; // replace
+    const BDAY_URL       = `https://api.airtable.com/v0/${AIRTABLE_BASE}/birthdays`;
+    const headers = { Authorization: `Bearer ${AIRTABLE_TOKEN}`, 'Content-Type': 'application/json' }; 
 
     function getSession(){ try{ return JSON.parse(localStorage.getItem('nudgie_session')); }catch{return null;} }
 

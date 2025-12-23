@@ -4,14 +4,62 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Nudgie — Login</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
-    body { background:#f8f9fa; }
-    .nudgie-container { max-width:720px; }
-    .brand { font-weight:700; letter-spacing:0.2px; }
+    :root{
+      --ink:#0f172a;
+      --muted:#6c757d;
+      --soft:#f8f9fa;
+      --border: rgba(15, 23, 42, 0.12);
+    }
+
+    body { background: var(--soft); color: var(--ink); }
+    a { text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .nudgie-container { max-width: 860px; } /* matches your app pages better than 720 */
+    .brand { font-weight: 800; letter-spacing: 0.2px; }
+
+    /* App page header band (matches Birthdays) */
+    .page-head{
+      background: var(--soft);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .page-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .page-subtitle{
+      color: var(--muted);
+      margin: 0.25rem 0 0;
+      font-size: 1.15rem;
+    }
+
+    /* Reusable small section title (matches your Birthdays section header style) */
+    .section-title{
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .icon-btn{
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
   </style>
 </head>
+
 <body>
+  <!-- Top nav (same style as other pages) -->
   <nav class="navbar navbar-light bg-white border-bottom">
     <div class="container nudgie-container py-2">
       <a class="navbar-brand brand" href="index.html">Nudgie</a>
@@ -22,30 +70,50 @@
     </div>
   </nav>
 
+  <!-- Page header band (like Birthdays) -->
+  <header class="page-head">
+    <div class="container nudgie-container py-4">
+      <h1 class="display-4 page-title">Login</h1>
+      <p class="page-subtitle">Use your email and a 4–6 digit PIN. First time? We’ll create your account.</p>
+    </div>
+  </header>
+
   <main class="container nudgie-container py-4">
     <div class="row g-4">
-      <div class="col-12">
-        <h1 class="h4 mb-1">Log in / Sign up</h1>
-        <p class="text-muted mb-3">Use your email and a 4–6 digit PIN. If it’s your first time, we’ll create your account.</p>
-      </div>
 
       <!-- Login Card -->
       <div class="col-12">
-        <div class="card shadow-sm">
+        <div class="card shadow-sm border border-secondary-subtle">
           <div class="card-body">
-            <form id="loginForm" class="row g-2">
+            <h2 class="section-title mb-2">Log in / Sign up</h2>
+            <p class="text-muted small mb-3">We keep it simple: email + PIN. No passwords to forget.</p>
+
+            <form id="loginForm" class="row g-2 align-items-end">
               <div class="col-md-7">
                 <label for="email" class="form-label small text-muted mb-1">Email</label>
                 <input id="email" type="email" class="form-control" placeholder="you@example.com" required>
               </div>
+
               <div class="col-md-5">
                 <label for="pin" class="form-label small text-muted mb-1">PIN</label>
-                <input id="pin" type="password" inputmode="numeric" pattern="[0-9]{4,6}" minlength="4" maxlength="6" class="form-control" placeholder="••••" required>
+                <input
+                  id="pin"
+                  type="password"
+                  inputmode="numeric"
+                  pattern="[0-9]{4,6}"
+                  minlength="4"
+                  maxlength="6"
+                  class="form-control"
+                  placeholder="••••"
+                  required
+                >
               </div>
+
               <div class="col-12 d-flex align-items-center gap-2 mt-2">
                 <button class="btn btn-primary" type="submit">Continue</button>
                 <button id="forgotBtn" class="btn btn-link" type="button">Forgot PIN?</button>
               </div>
+
               <div class="col-12 small text-muted mt-2">By continuing you agree to be gently nudged. 💜</div>
             </form>
           </div>
@@ -54,28 +122,45 @@
 
       <!-- Reset Card -->
       <div class="col-12 d-none" id="resetCard">
-        <div class="card border-success-subtle shadow-sm">
+        <div class="card bg-light border border-secondary-subtle shadow-sm">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-2">
-              <h2 class="h6 m-0">Reset your PIN</h2>
+              <h2 class="section-title mb-0">Reset your PIN</h2>
               <button class="btn btn-sm btn-outline-secondary" id="closeReset" type="button">Close</button>
             </div>
+
+            <hr class="mt-2 mb-3 border-secondary-subtle">
+
             <p class="small text-muted mb-3">We emailed you a 6-digit code. It expires in 15 minutes.</p>
-            <form id="resetForm" class="row g-2">
+
+            <form id="resetForm" class="row g-2 align-items-end">
               <div class="col-md-5">
                 <label class="form-label small text-muted mb-1">Email</label>
                 <input id="resetEmail" type="email" class="form-control" placeholder="you@example.com" required>
               </div>
+
               <div class="col-md-3">
                 <label class="form-label small text-muted mb-1">Code</label>
                 <input id="resetCode" type="text" class="form-control" placeholder="123456" maxlength="6" required>
               </div>
+
               <div class="col-md-3">
                 <label class="form-label small text-muted mb-1">New PIN</label>
-                <input id="newPin" type="password" inputmode="numeric" pattern="[0-9]{4,6}" minlength="4" maxlength="6" class="form-control" placeholder="••••" required>
+                <input
+                  id="newPin"
+                  type="password"
+                  inputmode="numeric"
+                  pattern="[0-9]{4,6}"
+                  minlength="4"
+                  maxlength="6"
+                  class="form-control"
+                  placeholder="••••"
+                  required
+                >
               </div>
-              <div class="col-md-1 d-flex align-items-end">
-                <button class="btn btn-success w-100" type="submit">Go</button>
+
+              <div class="col-md-1">
+                <button class="btn btn-primary w-100" type="submit">Go</button>
               </div>
             </form>
           </div>
@@ -98,6 +183,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
     // ===== CONFIG =====
     const AIRTABLE_TOKEN = 'pat7FJIZ2jVBPvyFJ.f3f48877944f4a6e2ac0d591468113c051dce38e080d11a4821c37151c5d6a9b';
@@ -129,9 +215,7 @@
     async function fetchUser(email){
       const filter = "LOWER({email})='" + email.toLowerCase().replace("'", "\\'") + "'";
       const url = USERS_URL + "?filterByFormula=" + encodeURIComponent(filter) + "&maxRecords=1";
-      const res = await fetch(url, {
-        headers: { Authorization: "Bearer " + AIRTABLE_TOKEN }
-      });
+      const res = await fetch(url, { headers: { Authorization: "Bearer " + AIRTABLE_TOKEN } });
       const data = await res.json();
       return (data.records || [])[0] || null;
     }
@@ -145,6 +229,7 @@
         },
         body: JSON.stringify({ fields })
       });
+
       const text = await res.text();
       let data;
       try { data = JSON.parse(text); } catch { data = text; }
@@ -253,7 +338,6 @@
         }
 
         const fields = rec.fields || {};
-        console.log('Reset record fields:', fields);
 
         if(!fields.reset_code || fields.reset_code.toString() !== code){
           showToast('Reset failed', 'Invalid code.');

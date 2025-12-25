@@ -261,11 +261,8 @@
 
     // Show signed-in email
     const sess = getSession();
-    if (!sess?.email) {
-      location.href = 'login.html';
-    } else {
-      document.getElementById('accountChip').textContent = sess.email;
-    }
+    if (!sess?.email) location.href = 'login.html';
+
 
     function ordinal(n){
       const s=["th","st","nd","rd"], v=n%100;

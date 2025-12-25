@@ -87,23 +87,7 @@
 
 <body>
   <!-- Top nav (simple like the example) -->
-  <nav class="navbar navbar-expand-lg bg-white border-bottom">
-    <div class="container py-2">
-      <a class="navbar-brand brand" href="index.html">Nudgie</a>
-
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topnav" aria-controls="topnav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="topnav">
-        <div class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-          <a class="nav-link" href="about.html">About</a>
-          <a class="nav-link" href="contact.html">Contact</a>
-          <a id="navLoginBtn" class="btn btn-primary btn-sm ms-lg-2" href="login.html">Log in / Sign up</a>
-        </div>
-      </div>
-    </div>
-  </nav>
+<div id="site-header"></div>
 
   <!-- Hero (Product example vibe) -->
   <section class="hero-wrap">
@@ -224,15 +208,9 @@
     </div>
   </main>
 
-  <footer class="border-top bg-white">
-    <div class="container py-3 d-flex justify-content-between small text-secondary">
-      <div>© <span id="yr"></span> Nudgie</div>
-      <div class="d-flex gap-3">
-        <a class="text-secondary" href="about.html">About</a>
-        <a class="text-secondary" href="contact.html">Contact</a>
-      </div>
-    </div>
-  </footer>
+<div id="site-footer"></div>
+<script src="includes.js"></script>
+
 
   <script>
     document.getElementById('yr').textContent = new Date().getFullYear();

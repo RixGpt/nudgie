@@ -1,22 +1,16 @@
-import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const express = require("express");
+const path = require("path");
 
 const app = express();
 
-// Serve everything in your repo root as static files
+// If your HTML files are in the repo root:
 app.use(express.static(__dirname, { extensions: ["html"] }));
 
-// Default route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// IMPORTANT: listen on the port Cloud Run provides
 const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
-  console.log(`Nudgie running on port ${port}`);
+  console.log(`Nudgie listening on port ${port}`);
 });
